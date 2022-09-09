@@ -8,13 +8,14 @@ TRAINING = (
     (4, 'Trening czwarty'),
 )
 
+
 class User(AbstractUser):
     is_trainer = models.BooleanField(default=False)
-    name = models.CharField(max_length=255)
-    surname = models.CharField(max_length=255)
     purpose = models.TextField()
     # email = models.EmailField()
     # password = models.CharField()
+    # first_name
+    # last_name
 
 
 class MacroElements(models.Model):

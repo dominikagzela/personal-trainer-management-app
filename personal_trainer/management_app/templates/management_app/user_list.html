@@ -1,0 +1,27 @@
+{% extends 'management_app/base.html' %}
+
+{% block content %}
+    <h3>Lista podopiecznych:</h3>
+    <ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Adres mailowy</th>
+                    <th>Cel współpracy</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.purpose }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </ul>
+{% endblock %}
