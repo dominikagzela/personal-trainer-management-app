@@ -18,13 +18,13 @@ from django.urls import path
 from management_app.views import (
     LoginUserView,
     UserListView,
-    tekst,
+    PracticalTipsView,
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', LoginUserView.as_view(), name="login-user"),
-    path('user_list', UserListView.as_view(), name="user-list"),
-    path('user_list', UserListView.as_view(), name="user-list"),
-    path('tekst/', tekst, name="tekst"),
+    path('', LoginUserView.as_view(), name='login-user'),
+    path('user_list', UserListView.as_view(), name='user-list'),
+    path('user_list', UserListView.as_view(), name='user-list'),
+    path('practical_tips', PracticalTipsView.as_view(), name='practical-tips'),
 ]

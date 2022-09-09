@@ -1,0 +1,8 @@
+{% extends 'management_app/base.html' %}
+
+{% block content %}
+    <h3>Lista ogólnych wskazówek:</h3>
+        {% for tip in tips %}
+            <li>{{ tip.tip }}</li>
+        {% endfor %}
+{% endblock %}

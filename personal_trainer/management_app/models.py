@@ -63,3 +63,7 @@ class PlanExercises(models.Model):
     series = models.IntegerField()
     repeat = models.IntegerField(null=True)
     TUT = models.CharField(max_length=7)
+
+
+class PracticalTips(models.Model):
+    tip = models.TextField()

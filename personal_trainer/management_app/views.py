@@ -3,15 +3,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import FormView, CreateView, ListView, RedirectView, UpdateView, DeleteView
 from django.core.exceptions import ObjectDoesNotExist
-from .models import User, MacroElements, Reports, Photos, Exercises, PlanExercises
+from .models import User, MacroElements, Reports, Photos, Exercises, PlanExercises, PracticalTips
 from .forms import LoginUserForm
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.urls import reverse_lazy
-
-
-def tekst(request):
-    a = 'zalogowany'
-    return HttpResponse(a)
 
 
 class LoginUserView(FormView):
@@ -37,3 +32,11 @@ class UserListView(ListView):
 
     def get_queryset(self):
         return User.objects.filter(is_trainer=False).order_by('first_name')
+
+
+# widok dla obu stron:
+class PracticalTipsView(ListView):
+    model = PracticalTips
+    template_name = 'management_app/practical_tips.html'
+    context_object_name = 'tips'
+
