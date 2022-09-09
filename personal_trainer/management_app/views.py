@@ -25,7 +25,7 @@ class LoginUserView(FormView):
         return response
 
 
-# widok tylko dla trenerki:
+# tylko dla TRENERA
 class UserListView(ListView):
     template_name = 'management_app/user_list.html'
     context_object_name = 'users'
@@ -34,9 +34,15 @@ class UserListView(ListView):
         return User.objects.filter(is_trainer=False).order_by('first_name')
 
 
-# widok dla obu stron:
+# dla OBU STRON:
 class PracticalTipsView(ListView):
     model = PracticalTips
     template_name = 'management_app/practical_tips.html'
     context_object_name = 'tips'
 
+
+# tylko dla TRENERA
+class ExercisesList(ListView):
+    model = Exercises
+    template_name = 'management_app/exercises_list.html'
+    context_object_name = 'exercises'

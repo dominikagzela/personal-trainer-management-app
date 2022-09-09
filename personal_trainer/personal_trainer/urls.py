@@ -19,12 +19,13 @@ from management_app.views import (
     LoginUserView,
     UserListView,
     PracticalTipsView,
+    ExercisesList,
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LoginUserView.as_view(), name='login-user'),
-    path('user_list', UserListView.as_view(), name='user-list'),
-    path('user_list', UserListView.as_view(), name='user-list'),
-    path('practical_tips', PracticalTipsView.as_view(), name='practical-tips'),
+    path('user_list/', UserListView.as_view(), name='user-list'),
+    path('practical_tips/', PracticalTipsView.as_view(), name='practical-tips'),
+    path('exercises_list/', ExercisesList.as_view(), name='exercises-list'),
 ]

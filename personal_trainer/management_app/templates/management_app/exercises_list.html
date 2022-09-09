@@ -1,0 +1,25 @@
+{% extends 'management_app/base.html' %}
+
+{% block content %}
+    <h3>Lista wszystkich dostępnych ćwiczeń:</h3>
+    <ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Opis</th>
+                    <th>Adres URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exercise in exercises %}
+                <tr>
+                    <td>{{ exercise.name }}</td>
+                    <td>{{ exercise.description }}</td>
+                    <td><a href="{{ exercise.url }}"</a>{{ exercise.url }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </ul>
+{% endblock %}
