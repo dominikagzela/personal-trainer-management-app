@@ -1,0 +1,12 @@
+{% extends 'management_app/base.html' %}
+
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p>Are you sure you want to delete exercise "{{ object.name }}"?</p>
+        <input type="submit" value="Usuń">
+        <input type="submit" name="cancel" value="Anuluj"/>
+    </form>
+{% endblock %}

@@ -19,7 +19,10 @@ from management_app.views import (
     LoginUserView,
     UserListView,
     PracticalTipsView,
-    ExercisesList,
+    ExercisesListView,
+    AddExerciseView,
+    DeleteExerciseView,
+    UpdateExerciseView,
 )
 
 urlpatterns = [
@@ -27,5 +30,8 @@ urlpatterns = [
     path('', LoginUserView.as_view(), name='login-user'),
     path('user_list/', UserListView.as_view(), name='user-list'),
     path('practical_tips/', PracticalTipsView.as_view(), name='practical-tips'),
-    path('exercises_list/', ExercisesList.as_view(), name='exercises-list'),
+    path('exercises_list/', ExercisesListView.as_view(), name='exercises-list'),
+    path('add_exercise/', AddExerciseView.as_view(), name='add-exercise'),
+    path('delete_exercise/<int:pk>/', DeleteExerciseView.as_view(), name='delete-exercise'),
+    path('update_exercise/<int:pk>/', UpdateExerciseView.as_view(), name='update-exercise'),
 ]

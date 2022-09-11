@@ -2,6 +2,7 @@
 
 {% block content %}
     <h3>Lista wszystkich dostępnych ćwiczeń:</h3>
+    <a href="/add_exercise" target="_blank"</a>Dodaj nowe ćwiczenie
     <ul>
         <table>
             <thead>
@@ -9,6 +10,8 @@
                     <th>Nazwa</th>
                     <th>Opis</th>
                     <th>Adres URL</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -16,7 +19,9 @@
                 <tr>
                     <td>{{ exercise.name }}</td>
                     <td>{{ exercise.description }}</td>
-                    <td><a href="{{ exercise.url }}"</a>{{ exercise.url }}</td>
+                    <td><a href="{{ exercise.url }}" target="_blank"</a>{{ exercise.url }}</td>
+                    <td><a href="/delete_exercise/{{ exercise.id }}" target="_blank"</a>Usuń</td>
+                    <td><a href="/update_exercise/{{ exercise.id }}" target="_blank"</a>Edytuj</td>
                 </tr>
                 {% endfor %}
             </tbody>
