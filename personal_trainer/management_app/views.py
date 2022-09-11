@@ -8,26 +8,38 @@ from .forms import LoginUserForm
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.urls import reverse_lazy
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from .decorators import user_required, trainer_required
+
+
+def logged_in(request):
+    return HttpResponse('zalogowales sie')
 
 
 class LoginUserView(FormView):
     template_name = 'management_app/login_user.html'
     form_class = LoginUserForm
-    success_url = reverse_lazy('user-list')
+    success_url = reverse_lazy('logged_in')
 
     def form_valid(self, form):
         response = super().form_valid(form)
         cd = form.cleaned_data
-        email = cd['email']
+        username = cd['username']
         password = cd['password']
-        user = authenticate(email=email, password=password)
-        login(self.request, user)
+        user = authenticate(self.request, username=username, password=password)
+        if user is not None:
+            login(self.request, user)
+            return response
+        else:
+            return HttpResponse('Błędne dane logowania.')
 
-        return response
+        # return response
 
 
 # tylko dla TRENERA
+@method_decorator([login_required, trainer_required], name='dispatch')
 class UserListView(ListView):
     template_name = 'management_app/user_list.html'
     context_object_name = 'users'
@@ -37,6 +49,7 @@ class UserListView(ListView):
 
 
 # dla OBU STRON:
+@method_decorator(login_required, name='dispatch')
 class PracticalTipsView(ListView):
     model = PracticalTips
     template_name = 'management_app/practical_tips.html'
@@ -44,6 +57,7 @@ class PracticalTipsView(ListView):
 
 
 # tylko dla TRENERA:
+@method_decorator([login_required, trainer_required], name='dispatch')
 class ExercisesListView(ListView):
     model = Exercises
     template_name = 'management_app/exercises_list.html'
@@ -51,6 +65,7 @@ class ExercisesListView(ListView):
 
 
 # tylko dla TRENERA:
+@method_decorator([login_required, trainer_required], name='dispatch')
 class AddExerciseView(CreateView):
     model = Exercises
     template_name = 'management_app/add_exercise_form.html'
@@ -65,6 +80,7 @@ class AddExerciseView(CreateView):
 
 
 # tylko dla TRENERA:
+@method_decorator([login_required, trainer_required], name='dispatch')
 class DeleteExerciseView(DeleteView):
     model = Exercises
     template_name = 'management_app/delete_exercise.html'
@@ -78,6 +94,7 @@ class DeleteExerciseView(DeleteView):
 
 
 # tylko dla TRENERA:
+@method_decorator([login_required, trainer_required], name='dispatch')
 class UpdateExerciseView(UpdateView):
     model = Exercises
     template_name = 'management_app/update_exercise.html'
@@ -90,3 +107,5 @@ class UpdateExerciseView(UpdateView):
         else:
             return super(UpdateExerciseView, self).post(request, *args, **kwargs)
 
+
+# class MacroElementsView(ListView)
