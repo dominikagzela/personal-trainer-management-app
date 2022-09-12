@@ -1,0 +1,28 @@
+{% extends 'management_app/base.html' %}
+
+{% block content %}
+    <h3>Makroskładniki:</h3>
+    <ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Kalorie</th>
+                    <th>Białko</th>
+                    <th>Tłuszcze</th>
+                    <th>Węglowodany</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for macro in macros %}
+                <tr>
+                    <td>{{ macro.calories }}</td>
+                    <td>{{ macro.protein}}</td>
+                    <td>{{ macro.fat }}</td>
+                    <td>{{ macro.carb }}</td>
+<!--                    <td><a href="/update_exercise/{{ exercise.id }}" target="_blank"</a>Edytuj</td>-->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </ul>
+{% endblock %}

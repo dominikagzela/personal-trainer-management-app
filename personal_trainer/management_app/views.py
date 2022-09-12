@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.views.generic import FormView, CreateView, ListView, RedirectView, UpdateView, DeleteView
+from django.views.generic import View, FormView, CreateView, ListView, UpdateView, DeleteView, RedirectView
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, MacroElements, Reports, Photos, Exercises, PlanExercises, PracticalTips
 from .forms import LoginUserForm
@@ -18,7 +18,7 @@ def logged_in(request):
     return HttpResponse('zalogowales sie')
 
 
-class LoginUserView(FormView):
+class LoginView(FormView):
     template_name = 'management_app/login_user.html'
     form_class = LoginUserForm
     success_url = reverse_lazy('logged_in')
@@ -34,8 +34,6 @@ class LoginUserView(FormView):
             return response
         else:
             return HttpResponse('Błędne dane logowania.')
-
-        # return response
 
 
 # tylko dla TRENERA
@@ -108,4 +106,14 @@ class UpdateExerciseView(UpdateView):
             return super(UpdateExerciseView, self).post(request, *args, **kwargs)
 
 
-# class MacroElementsView(ListView)
+# DLA USER'A:
+@method_decorator(login_required, name='dispatch')
+class MacroElementsUserView(ListView):
+    model = MacroElements
+    template_name = 'management_app/macro_elements.html'
+    context_object_name = 'macros'
+
+    def get_queryset(self):
+        current_user = self.request.user
+        return MacroElements.objects.filter(user_id=current_user.id)
+

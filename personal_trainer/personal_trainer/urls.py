@@ -17,25 +17,26 @@ from django.contrib import admin
 from django.urls import path
 from management_app.views import (
     logged_in,
-    LoginUserView,
+    LoginView,
     UserListView,
     PracticalTipsView,
     ExercisesListView,
     AddExerciseView,
     DeleteExerciseView,
     UpdateExerciseView,
-    # MacroElementsView,
+    MacroElementsUserView,
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('logged_in', logged_in, name='logged_in'),
-    path('', LoginUserView.as_view(), name='login-user'),
+    path('', LoginView.as_view(), name='login-user'),
+    # path('logout/', LogoutView.as_view(), name='logout'),
     path('user_list/', UserListView.as_view(), name='user-list'),
     path('practical_tips/', PracticalTipsView.as_view(), name='practical-tips'),
     path('exercises_list/', ExercisesListView.as_view(), name='exercises-list'),
     path('add_exercise/', AddExerciseView.as_view(), name='add-exercise'),
     path('delete_exercise/<int:pk>/', DeleteExerciseView.as_view(), name='delete-exercise'),
     path('update_exercise/<int:pk>/', UpdateExerciseView.as_view(), name='update-exercise'),
-    # path('macro_elements/', MacroElementsView.as_view(), name='macro-elements'),
+    path('macro_elements_user/', MacroElementsUserView.as_view(), name='macro-elements-user'),
 ]
