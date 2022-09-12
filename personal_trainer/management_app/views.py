@@ -36,6 +36,15 @@ class LoginView(FormView):
             return HttpResponse('Błędne dane logowania.')
 
 
+@method_decorator(login_required, name='dispatch')
+class LogoutView(RedirectView):
+    url = reverse_lazy('login')
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super().get(request, *args, **kwargs)
+
+
 # tylko dla TRENERA
 @method_decorator([login_required, trainer_required], name='dispatch')
 class UserListView(ListView):
