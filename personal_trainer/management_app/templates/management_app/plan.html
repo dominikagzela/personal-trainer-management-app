@@ -1,0 +1,38 @@
+{% extends 'management_app/base.html' %}
+
+{% block content %}
+<h3>Plan ćwiczeń:</h3>
+    <ul>
+        {% for training in trainings %}
+        <h1>Trening nr {{ training }}</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Ćwiczenie</th>
+                <th>Ilość serii</th>
+                <th>Ilość powtórzeń</th>
+                <th>TUT</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for plan in plans %}
+            {% if training == plan.training_number %}
+            <tr>
+                <td>{{ plan.exercise.name }}</td>
+                <td>{{ plan.series }}</td>
+                <td>{{ plan.repeat }}</td>
+                <td>{{ plan.TUT }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% endfor %}
+    </ul>
+<a href="/logout"</a>Wyloguj
+{% endblock %}
+
+
+
+

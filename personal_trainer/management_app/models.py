@@ -62,7 +62,10 @@ class PlanExercises(models.Model):
     training_number = models.IntegerField(TRAINING)
     series = models.IntegerField()
     repeat = models.IntegerField(null=True)
-    TUT = models.CharField(max_length=7)
+    TUT = models.CharField(max_length=7, null=True)
+
+    class Meta:
+        ordering = ['training_number']
 
 
 class PracticalTips(models.Model):

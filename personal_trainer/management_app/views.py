@@ -13,6 +13,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .decorators import user_required, trainer_required
 
+from django.db.models import Subquery, OuterRef
+from django.template import Library
+
+register = Library()
 
 def logged_in(request):
     return HttpResponse('zalogowales sie')
@@ -88,20 +92,6 @@ class AddExerciseView(CreateView):
 
 # tylko dla TRENERA:
 @method_decorator([login_required, trainer_required], name='dispatch')
-class DeleteExerciseView(DeleteView):
-    model = Exercises
-    template_name = 'management_app/delete_exercise.html'
-    success_url = reverse_lazy('exercises-list')
-
-    def post(self, request, *args, **kwargs):
-        if "cancel" in request.POST:
-            return HttpResponseRedirect(self.success_url)
-        else:
-            return super(DeleteExerciseView, self).post(request, *args, **kwargs)
-
-
-# tylko dla TRENERA:
-@method_decorator([login_required, trainer_required], name='dispatch')
 class UpdateExerciseView(UpdateView):
     model = Exercises
     template_name = 'management_app/update_exercise.html'
@@ -115,6 +105,20 @@ class UpdateExerciseView(UpdateView):
             return super(UpdateExerciseView, self).post(request, *args, **kwargs)
 
 
+# tylko dla TRENERA:
+@method_decorator([login_required, trainer_required], name='dispatch')
+class DeleteExerciseView(DeleteView):
+    model = Exercises
+    template_name = 'management_app/delete_exercise.html'
+    success_url = reverse_lazy('exercises-list')
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(self.success_url)
+        else:
+            return super(DeleteExerciseView, self).post(request, *args, **kwargs)
+
+
 # DLA USER'A:
 @method_decorator(login_required, name='dispatch')
 class MacroElementsUserView(ListView):
@@ -126,3 +130,24 @@ class MacroElementsUserView(ListView):
         current_user = self.request.user
         return MacroElements.objects.filter(user_id=current_user.id)
 
+
+@method_decorator(login_required, name='dispatch')
+class PlanView(ListView):
+    template_name = 'management_app/plan.html'
+    model = PlanExercises
+
+    def get_context_data(self, **kwargs):
+        current_user = self.request.user
+        # Call the base implementation first to get a context
+        # ctx = super().get_context_data(**kwargs)
+
+        plans = PlanExercises.objects.filter(user=current_user.id)
+        get_trainings = []
+        for plan in plans:
+            if not (plan.training_number in get_trainings):
+                get_trainings.append(plan.training_number)
+        ctx = {
+            'trainings': get_trainings,
+            'plans': plans
+        }
+        return ctx
