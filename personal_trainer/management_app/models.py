@@ -55,6 +55,9 @@ class Exercises(models.Model):
     url = models.URLField()
     plan = models.ManyToManyField(User, through='PlanExercises')
 
+    def __str__(self):
+        return self.name
+
 
 class PlanExercises(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -65,7 +68,7 @@ class PlanExercises(models.Model):
     TUT = models.CharField(max_length=7, null=True)
 
     class Meta:
-        ordering = ['training_number']
+        ordering = ['training_number', 'pk']
 
 
 class PracticalTips(models.Model):

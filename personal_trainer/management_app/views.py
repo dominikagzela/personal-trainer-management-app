@@ -4,9 +4,9 @@ from django.shortcuts import render, redirect
 from django.views.generic import View, FormView, CreateView, ListView, UpdateView, DeleteView, RedirectView
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, MacroElements, Reports, Photos, Exercises, PlanExercises, PracticalTips
-from .forms import LoginUserForm
+from .forms import LoginUserForm, PlanExercisesForm
 from django.contrib.auth import get_user_model, authenticate, login, logout
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -17,6 +17,7 @@ from django.db.models import Subquery, OuterRef
 from django.template import Library
 
 register = Library()
+
 
 def logged_in(request):
     return HttpResponse('zalogowales sie')
@@ -132,11 +133,12 @@ class MacroElementsUserView(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-class PlanView(ListView):
-    template_name = 'management_app/plan.html'
+class PlanUserView(ListView):
     model = PlanExercises
+    template_name = 'management_app/plan_user.html'
 
     def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
         current_user = self.request.user
         # Call the base implementation first to get a context
         # ctx = super().get_context_data(**kwargs)
@@ -150,4 +152,70 @@ class PlanView(ListView):
             'trainings': get_trainings,
             'plans': plans
         }
+        return ctx
+
+
+@method_decorator([login_required, trainer_required], name='dispatch')
+class PlanTrainerView(ListView):
+    model = PlanExercises
+    template_name = 'management_app/plan_trainer_view.html'
+
+    def get_context_data(self, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        current_user = User.objects.get(id=current_user_id)
+        plans = PlanExercises.objects.filter(user=current_user_id)
+        get_trainings = []
+        for plan in plans:
+            if not (plan.training_number in get_trainings):
+                get_trainings.append(plan.training_number)
+        ctx = {
+            'user': current_user,
+            'trainings': get_trainings,
+            'plans': plans
+        }
+        return ctx
+
+
+@method_decorator([login_required, trainer_required], name='dispatch')
+class PlanCreateTrainerView(CreateView):
+    model = PlanExercises
+    template_name = 'management_app/plan_create_form.html'
+
+
+@method_decorator([login_required, trainer_required], name='dispatch')
+class PlanUpdateTrainerView(UpdateView):
+    form_class = PlanExercisesForm
+    template_name = 'management_app/plan_update_form.html'
+    model = PlanExercises
+    # pk_url_kwarg = 'user_id'
+    pk_url_kwarg = 'plan_pk'
+
+    def form_valid(self, form, **kwargs):
+        form.save()
+        return super(PlanUpdateTrainerView, self).form_valid(form)
+
+    def get_initial(self, queryset=None):
+        current_user_id = self.kwargs['user_id']
+        current_training = self.kwargs['training_number']
+        current_exercise_id = self.kwargs['exercise_id']
+        initial = super(PlanUpdateTrainerView, self).get_initial()
+        plan = PlanExercises.objects.filter(
+            user=current_user_id).filter(
+            training_number=current_training).filter(
+            exercise=current_exercise_id
+        )
+        initial['exercise'] = plan[0].exercise.name
+        initial['series'] = plan[0].series
+        initial['repeat'] = plan[0].repeat
+        initial['TUT'] = plan[0].TUT
+        return initial
+
+    def get_success_url(self, *args, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        return reverse('plan-for-user', args=[current_user_id])
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        current_training = self.kwargs['training_number']
+        ctx['training_number'] = current_training
         return ctx

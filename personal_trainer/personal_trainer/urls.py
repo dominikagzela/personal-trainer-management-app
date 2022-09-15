@@ -26,7 +26,10 @@ from management_app.views import (
     DeleteExerciseView,
     UpdateExerciseView,
     MacroElementsUserView,
-    PlanView,
+    PlanUserView,
+    PlanTrainerView,
+    PlanCreateTrainerView,
+    PlanUpdateTrainerView,
 )
 
 urlpatterns = [
@@ -44,8 +47,11 @@ urlpatterns = [
     path('add_exercise/', AddExerciseView.as_view(), name='add-exercise'),
     path('update_exercise/<int:pk>/', UpdateExerciseView.as_view(), name='update-exercise'),
     path('delete_exercise/<int:pk>/', DeleteExerciseView.as_view(), name='delete-exercise'),
+    path('plan_for_user/<int:user_id>/', PlanTrainerView.as_view(), name='plan-for-user'),
+    path('plan_create_for_user/<int:user_id>/', PlanCreateTrainerView.as_view(), name='plan-create-for-user'),
+    path('plan_update_for_user/<int:user_id>/<int:training_number>/<int:exercise_id>/<int:plan_pk>/', PlanUpdateTrainerView.as_view(), name='plan-update-for-user'),
 
     # for users:
     path('macro_elements_user/', MacroElementsUserView.as_view(), name='macro-elements-user'),
-    path('plan/', PlanView.as_view(), name='plan'),
+    path('plan_user/', PlanUserView.as_view(), name='plan-user'),
 ]

@@ -1,0 +1,44 @@
+{% extends 'management_app/base.html' %}
+
+{% block content %}
+<h1>{{ user.first_name }} {{ user.last_name }}</h1>
+<h2>Plan ćwiczeń:</h2>
+    <ul>
+        {% for training in trainings %}
+        <h2>TRENING {{ training }}</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Ćwiczenie</th>
+                <th>Ilość serii</th>
+                <th>Ilość powtórzeń</th>
+                <th>TUT</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for plan in plans %}
+            {% if training == plan.training_number %}
+            <tr>
+                <td>{{ plan.exercise.name }}</td>
+                <td>{{ plan.series }}</td>
+                <td>{{ plan.repeat }}</td>
+                <td>{{ plan.TUT }}</td>
+                <td><a href="/plan_update_for_user/{{ user.id }}/{{ plan.training_number }}/{{ plan.exercise.id }}/{{ plan.pk}}/"</a>Edytuj</td>
+                <td><a href="/plan_delete_for_user/{{ user.id }}"</a>Usuń</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <h3><a href="/plan_crate_for_user/{{ user.id }}">Dodaj ćwiczenie</a></h3>
+        {% endfor %}
+    </ul>
+<a href="/user_list"</a>Powrót do listy<br>
+<a href="/logout"</a>Wyloguj
+{% endblock %}
+
+
+
+
