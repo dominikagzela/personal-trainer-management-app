@@ -4,14 +4,16 @@
 <h3>Plan ćwiczeń:</h3>
     <ul>
         {% for training in trainings %}
-        <h1>Trening nr {{ training }}</h1>
+        <h1>TRENING {{ training }}</h1>
         <table>
             <thead>
             <tr>
                 <th>Ćwiczenie</th>
-                <th>Ilość serii</th>
-                <th>Ilość powtórzeń</th>
+                <th>Serie</th>
+                <th>Powtórzenia</th>
                 <th>TUT</th>
+                <th>Wykonanie ćwiczenia</th>
+                <th>Opis ćwiczenia</th>
             </tr>
             </thead>
             <tbody>
@@ -22,6 +24,8 @@
                 <td>{{ plan.series }}</td>
                 <td>{{ plan.repeat }}</td>
                 <td>{{ plan.TUT }}</td>
+                <td><a href="{{ plan.exercise.url }}" target="_blank" </a>link</td>
+                <td>{{ plan.exercise.description }}</td>
             </tr>
             {% endif %}
             {% endfor %}
