@@ -80,7 +80,7 @@ class ExercisesListView(ListView):
 @method_decorator([login_required, trainer_required], name='dispatch')
 class AddExerciseView(CreateView):
     model = Exercises
-    template_name = 'management_app/add_exercise_form.html'
+    template_name = 'management_app/add_exercise.html'
     fields = ['name', 'description', 'url']
     success_url = reverse_lazy('exercises-list')
 
@@ -177,28 +177,27 @@ class PlanTrainerView(ListView):
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
-class PlanCreateTrainerView(CreateView):
+class PlanCreateExercise(CreateView):
     model = PlanExercises
     template_name = 'management_app/plan_create_form.html'
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
-class PlanUpdateTrainerView(UpdateView):
+class PlanUpdateExercise(UpdateView):
     form_class = PlanExercisesForm
-    template_name = 'management_app/plan_update_form.html'
+    template_name = 'management_app/plan_update_exercise.html'
     model = PlanExercises
-    # pk_url_kwarg = 'user_id'
     pk_url_kwarg = 'plan_pk'
 
     def form_valid(self, form, **kwargs):
         form.save()
-        return super(PlanUpdateTrainerView, self).form_valid(form)
+        return super(PlanUpdateExercise, self).form_valid(form)
 
     def get_initial(self, queryset=None):
         current_user_id = self.kwargs['user_id']
         current_training = self.kwargs['training_number']
         current_exercise_id = self.kwargs['exercise_id']
-        initial = super(PlanUpdateTrainerView, self).get_initial()
+        initial = super(PlanUpdateExercise, self).get_initial()
         plan = PlanExercises.objects.filter(
             user=current_user_id).filter(
             training_number=current_training).filter(
@@ -219,3 +218,50 @@ class PlanUpdateTrainerView(UpdateView):
         current_training = self.kwargs['training_number']
         ctx['training_number'] = current_training
         return ctx
+
+
+@method_decorator([login_required, trainer_required], name='dispatch')
+class PlanDeleteExercise(DeleteView):
+    model = PlanExercises
+    template_name = 'management_app/plan_delete_exercise.html'
+
+    def get_success_url(self):
+        current_user_id = self.kwargs['user_id']
+        return reverse_lazy('plan-for-user', kwargs={'user_id': current_user_id})
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(PlanDeleteExercise, self).post(request, *args, **kwargs)
+
+
+class PlanAddExercise(CreateView):
+    model = PlanExercises
+    template_name = 'management_app/plan_add_exercise.html'
+    form_class = PlanExercisesForm
+
+    def get_success_url(self):
+        current_user_id = self.kwargs['user_id']
+        return reverse_lazy('plan-for-user', kwargs={'user_id': current_user_id})
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(PlanAddExercise, self).post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        current_training = self.kwargs['training_number']
+        ctx['training_number'] = current_training
+        return ctx
+
+    def form_valid(self, form, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        training_number_id = self.kwargs['training_number']
+        user = User.objects.get(id=current_user_id)
+        form.instance.user = user
+        form.instance.training_number = training_number_id
+        form.save()
+        return super(PlanAddExercise, self).form_valid(form)

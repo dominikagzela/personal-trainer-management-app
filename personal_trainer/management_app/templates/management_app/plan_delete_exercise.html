@@ -5,9 +5,9 @@
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <p>Czy jesteś pewny/a, że chcesz usunąć ćwiczenie "{{ object.name }}"?</p>
+        <p>Czy jesteś pewny/a, że chcesz usunąć ćwiczenie "{{ object.exercise }}" z treningu {{ object.training_number }}?</p>
         <input type="submit" value="Usuń">
         <input type="submit" name="cancel" value="Anuluj"/>
-    </form>
+    </form><br>
     <a href="/logout"</a>Wyloguj
 {% endblock %}

@@ -11,9 +11,9 @@ class LoginUserForm(forms.Form):
 
 
 class PlanExercisesForm(forms.ModelForm):
-    # training_number = forms.ChoiceField(choices=TRAINING)
-    # exercise = forms.ModelChoiceField(queryset=Exercises.objects.all().values_list('name', flat=True).distinct())
-    exercise = forms.ModelChoiceField(queryset=Exercises.objects.all(), to_field_name='name', required=False)
+    exercise = forms.ModelChoiceField(queryset=Exercises.objects.all(), label='Ćwiczenie', empty_label=None, to_field_name='name', required=False)
+    series = forms.IntegerField(label='Serie', min_value=1, max_value=10, step_size=1)
+    repeat = forms.IntegerField(label='Powtórzenia', min_value=1, max_value=50, step_size=1)
 
     class Meta:
         model = PlanExercises

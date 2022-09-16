@@ -10,8 +10,8 @@
             <thead>
             <tr>
                 <th>Ćwiczenie</th>
-                <th>Ilość serii</th>
-                <th>Ilość powtórzeń</th>
+                <th>Serie</th>
+                <th>Powtórzenia</th>
                 <th>TUT</th>
                 <th></th>
                 <th></th>
@@ -25,17 +25,17 @@
                 <td>{{ plan.series }}</td>
                 <td>{{ plan.repeat }}</td>
                 <td>{{ plan.TUT }}</td>
-                <td><a href="/plan_update_for_user/{{ user.id }}/{{ plan.training_number }}/{{ plan.exercise.id }}/{{ plan.pk}}/"</a>Edytuj</td>
-                <td><a href="/plan_delete_for_user/{{ user.id }}"</a>Usuń</td>
+                <td><a href="/plan_update_exercise/{{ user.id }}/{{ plan.training_number }}/{{ plan.exercise.id }}/{{ plan.pk}}/"</a>Edytuj</td>
+                <td><a href="/plan_delete_exercise/{{ user.id }}/{{ plan.pk }}/"</a>Usuń</td>
             </tr>
             {% endif %}
             {% endfor %}
             </tbody>
         </table>
-        <h3><a href="/plan_crate_for_user/{{ user.id }}">Dodaj ćwiczenie</a></h3>
+        <h3><a href="/plan_add_exercise/{{ user.id }}/{{ training }}/">Dodaj ćwiczenie</a></h3>
         {% endfor %}
-    </ul>
-<a href="/user_list"</a>Powrót do listy<br>
+    </ul><br>
+<a href="/user_list"</a>Powrót do listy<br><br>
 <a href="/logout"</a>Wyloguj
 {% endblock %}
 

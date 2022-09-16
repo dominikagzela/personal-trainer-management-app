@@ -2,12 +2,12 @@
 
 
 {% block content %}
+    <h2>TRENING {{ training_number }}</h2>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <p>Czy jesteś pewny/a, że chcesz usunąć ćwiczenie "{{ object.name }}"?</p>
-        <input type="submit" value="Usuń">
+        <input type="submit" value="Zapisz">
         <input type="submit" name="cancel" value="Anuluj"/>
-    </form>
+    </form><br>
     <a href="/logout"</a>Wyloguj
 {% endblock %}
