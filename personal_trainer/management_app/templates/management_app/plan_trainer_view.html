@@ -15,6 +15,8 @@
                 <th>TUT</th>
                 <th></th>
                 <th></th>
+                <th>Wykonanie ćwiczenie</th>
+                <th>Opis ćwiczenia</th>
             </tr>
             </thead>
             <tbody>
@@ -27,6 +29,8 @@
                 <td>{{ plan.TUT }}</td>
                 <td><a href="/plan_update_exercise/{{ user.id }}/{{ plan.training_number }}/{{ plan.exercise.id }}/{{ plan.pk}}/"</a>Edytuj</td>
                 <td><a href="/plan_delete_exercise/{{ user.id }}/{{ plan.pk }}/"</a>Usuń</td>
+                <td><a href="{{ plan.exercise.url }}" target="_blank" </a>link</td>
+                <td>{{ plan.exercise.description }}</td>
             </tr>
             {% endif %}
             {% endfor %}
