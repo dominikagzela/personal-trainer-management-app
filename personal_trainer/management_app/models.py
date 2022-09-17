@@ -40,6 +40,9 @@ class Reports(models.Model):
     created_date = models.DateField(auto_created=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['created_date']
+
 
 class Photos(models.Model):
     front = models.ImageField(upload_to='photos')

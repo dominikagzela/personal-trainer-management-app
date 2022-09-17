@@ -1,0 +1,107 @@
+{% extends 'management_app/base.html' %}
+
+{% block content %}
+    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+    <h3>POMIARY:</h3>
+    <ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Raport</th>
+                    <th>Data</th>
+                    <th>Waga</th>
+                    <th>Talia</th>
+                    <th>Brzuch</th>
+                    <th>Biodra</th>
+                    <th>Udo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td><b>{{ forloop.counter }}.</b></td>
+                    <td>{{ report.created_date|date:'d.m.Y' }}</td>
+                    <td>{{ report.weight }} kg</td>
+                    <td>{{ report.waist }} cm</td>
+                    <td>{{ report.stomach }} cm</td>
+                    <td>{{ report.hip }} cm</td>
+                    <td>{{ report.thigh }} cm</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </ul>
+<br><br>
+    <h3>TRENINGI:</h3>
+    <ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Raport</th>
+                    <th>Data</th>
+                    <th>Trening 1</th>
+                    <th>Trening 2</th>
+                    <th>Trening 3</th>
+                    <th>Trening 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                        <td><b>{{ forloop.counter }}.</b></td>
+                        <td>{{ report.created_date|date:'d.m.Y' }}</td>
+                    {% if report.training_first == True %}
+                        <td>✓</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+
+                    {% if report.training_second == True %}
+                        <td>✓</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+
+                    {% if report.training_third == True %}
+                        <td>✓</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+
+                    {% if report.training_fourth == True %}
+                        <td>✓</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </ul>
+<br><br>
+    <h3>LISTA RAPORTÓW:</h3>
+    <ul>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                        <td><b>{{ forloop.counter }}.</b></td>
+                        <td>Raport {{ forloop.counter }}:</td>
+                        <td><a href="/report_details_trainer/{{ user.id }}/{{ report.id }}/"</a>{{ report.created_date|date:'d.m.Y' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </ul>
+    <br>
+    <a href="/user_list"</a>Powrót do listy<br><br>
+    <a href="/dashboard_trainer">Strona główna</a><br>
+    <a href="/logout"</a>Wyloguj
+{% endblock %}

@@ -7,6 +7,7 @@
         <table>
             <thead>
                 <tr>
+                    <th></th>
                     <th>Nazwa</th>
                     <th>Opis</th>
                     <th>Wykonanie ćwiczenia</th>
@@ -17,9 +18,10 @@
             <tbody>
                 {% for exercise in exercises %}
                 <tr>
+                    <td><b>{{ forloop.counter }}.</b></td>
                     <td>{{ exercise.name }}</td>
                     <td>{{ exercise.description }}</td>
-                    <td><a href="{{ exercise.url }}" target="_blank"</a>{{ exercise.url }}</td>
+                    <td><a href="{{ exercise.url }}" target="_blank"</a>link</td>
                     <td><a href="/delete_exercise/{{ exercise.id }}" target="_blank"</a>Usuń</td>
                     <td><a href="/update_exercise/{{ exercise.id }}" target="_blank"</a>Edytuj</td>
                 </tr>

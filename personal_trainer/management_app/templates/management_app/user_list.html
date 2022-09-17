@@ -6,21 +6,27 @@
         <table>
             <thead>
                 <tr>
+                    <th></th>
                     <th>Imię</th>
                     <th>Nazwisko</th>
                     <th>Adres mailowy</th>
                     <th>Cel współpracy</th>
+                    <th></th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 {% for user in users %}
                 <tr>
+                    <td><b>{{ forloop.counter }}.</b></td>
                     <td>{{ user.first_name }}</td>
                     <td>{{ user.last_name }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.purpose }}</td>
-                    <td><a href="/plan_for_user/{{ user.id }}"</a>Plan</td>
+                    <td><a href="/macro_elements_trainer/{{ user.id }}"</a>Makroskładniki</td>
+                    <td><a href="/plan_for_user/{{ user.id }}"</a>Plan treningowy</td>
+                    <td><a href="/report_list_trainer/{{ user.id }}"</a>Raporty</td>
                 </tr>
                 {% endfor %}
             </tbody>

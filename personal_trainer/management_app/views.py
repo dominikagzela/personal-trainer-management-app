@@ -1,10 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.views.generic import View, FormView, CreateView, ListView, DetailView, UpdateView, DeleteView, RedirectView
+from django.views.generic import (
+    View,
+    FormView,
+    CreateView,
+    ListView,
+    DetailView,
+    UpdateView,
+    DeleteView,
+    RedirectView,
+)
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, MacroElements, Reports, Photos, Exercises, PlanExercises, PracticalTips
-from .forms import LoginUserForm, PlanExercisesForm
+from .forms import LoginUserForm, PlanExercisesForm, ExercisesForm
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.urls import reverse_lazy, reverse
 
@@ -80,10 +89,17 @@ class UserListView(ListView):
 
 
 # dla OBU STRON:
-@method_decorator(login_required, name='dispatch')
-class PracticalTipsView(ListView):
+@method_decorator([login_required, user_required], name='dispatch')
+class PracticalTipsUserView(ListView):
     model = PracticalTips
-    template_name = 'management_app/practical_tips.html'
+    template_name = 'management_app/practical_tips_user.html'
+    context_object_name = 'tips'
+
+
+@method_decorator([login_required, trainer_required], name='dispatch')
+class PracticalTipsTrainerView(ListView):
+    model = PracticalTips
+    template_name = 'management_app/practical_tips_trainer.html'
     context_object_name = 'tips'
 
 
@@ -100,7 +116,8 @@ class ExercisesListView(ListView):
 class AddExerciseView(CreateView):
     model = Exercises
     template_name = 'management_app/add_exercise.html'
-    fields = ['name', 'description', 'url']
+    # fields = ['name', 'description', 'url']
+    form_class = ExercisesForm
     success_url = reverse_lazy('exercises-list')
 
     def post(self, request, *args, **kwargs):
@@ -137,18 +154,6 @@ class DeleteExerciseView(DeleteView):
             return HttpResponseRedirect(self.success_url)
         else:
             return super(DeleteExerciseView, self).post(request, *args, **kwargs)
-
-
-# DLA USER'A:
-@method_decorator([login_required, user_required], name='dispatch')
-class MacroElementsUserView(ListView):
-    model = MacroElements
-    template_name = 'management_app/macro_elements.html'
-    context_object_name = 'macros'
-
-    def get_queryset(self):
-        current_user = self.request.user
-        return MacroElements.objects.filter(user_id=current_user.id)
 
 
 @method_decorator([login_required, user_required], name='dispatch')
@@ -285,3 +290,84 @@ class PlanAddExercise(CreateView):
         form.instance.training_number = training_number_id
         form.save()
         return super(PlanAddExercise, self).form_valid(form)
+
+
+# DLA USER'A:
+@method_decorator([login_required, user_required], name='dispatch')
+class MacroElementsUserView(ListView):
+    model = MacroElements
+    template_name = 'management_app/macro_elements_user.html'
+
+    def get_queryset(self):
+        current_user_id = self.request.user
+        return MacroElements.objects.get(user_id=current_user_id)
+
+    def get_context_data(self, **kwargs):
+        current_user_id = self.request.user
+        macros = MacroElements.objects.get(user=current_user_id)
+        ctx = {
+            'macros': macros,
+        }
+        return ctx
+
+
+@method_decorator([login_required, trainer_required], name='dispatch')
+class MacroElementsTrainerView(ListView):
+    model = MacroElements
+    template_name = 'management_app/macro_elements_trainer.html'
+
+    def get_queryset(self, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        return MacroElements.objects.get(user_id=current_user_id)
+
+    def get_context_data(self, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        current_user = User.objects.get(id=current_user_id)
+        macros = MacroElements.objects.get(user=current_user_id)
+        ctx = {
+            'user': current_user,
+            'macros': macros,
+        }
+        return ctx
+
+
+class ReportListTrainerView(ListView):
+    model = Reports
+    template_name = 'management_app/report_list_trainer.html'
+
+    def get_queryset(self, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        return Reports.objects.filter(user=current_user_id)
+
+    def get_context_data(self, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        user = User.objects.get(pk=current_user_id)
+        reports = Reports.objects.filter(user=current_user_id)
+        ctx = {
+            'user': user,
+            'reports': reports,
+        }
+        return ctx
+
+
+class ReportDetailsTrainerView(ListView):
+    model = Reports
+    template_name = 'management_app/report_details_trainer.html'
+
+    def get_queryset(self, **kwargs):
+        current_report_id = self.kwargs['report_pk']
+        return Reports.objects.filter(pk=current_report_id)
+
+    def get_context_data(self, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        current_report_id = self.kwargs['report_pk']
+        user = User.objects.get(pk=current_user_id)
+        report = Reports.objects.get(pk=current_report_id)
+        photos = Photos.objects.filter(report=current_report_id)
+
+        ctx = {
+            'user': user,
+            'report': report,
+            'photos': photos,
+        }
+        return ctx

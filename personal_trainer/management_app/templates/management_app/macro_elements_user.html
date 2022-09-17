@@ -1,0 +1,16 @@
+{% extends 'management_app/base.html' %}
+
+{% block content %}
+    <h3>MAKROSKŁADNIKI:</h3>
+<br>
+    <li><b>Kalorie:</b> {{ macros.calories }} kcal</li>
+<br>
+    <li><b>Białko:</b> {{ macros.protein }} g</li>
+    <li><b>Tłuszcze:</b> {{ macros.fat }} g</li>
+    <li><b>Węglowodany:</b> {{ macros.carb }} g</li>
+<br>
+<br>
+    <br>
+    <a href="/dashboard_user">Strona główna</a><br>
+    <a href="/logout"</a>Wyloguj
+{% endblock %}

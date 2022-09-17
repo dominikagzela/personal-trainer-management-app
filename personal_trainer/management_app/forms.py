@@ -9,13 +9,20 @@ class LoginUserForm(forms.Form):
     username = forms.CharField(max_length=265)
     password = forms.CharField(widget=forms.PasswordInput)
 
-    # def clean(self):
-    #     cd = super().clean()
-    #     login = cd.get('username')
-    #     password = cd.get('password')
-    #     user = authenticate(username=login, password=password)
-    #     if user is None:
-    #         raise ValidationError('Dane logowania nie są prawidłowe')
+
+class ExercisesForm(forms.ModelForm):
+    class Meta:
+        model = Exercises
+        fields = [
+            'name',
+            'description',
+            'url',
+        ]
+        labels = {
+            'name': 'Nazwa',
+            'description': 'Opis',
+            'url': 'Adres url',
+        }
 
 
 class PlanExercisesForm(forms.ModelForm):
@@ -32,4 +39,16 @@ class PlanExercisesForm(forms.ModelForm):
             'TUT',
         ]
 
+
+# class ReportForm(forms.ModelForm):
+#     weight = forms.IntegerField(label='Waga', min_value=20, max_value=300, step_size=1)
+#     waist = forms.IntegerField(label='Talia', min_value=20, max_value=300, step_size=1)
+#     stomach = forms.IntegerField(label='Brzuch', min_value=20, max_value=300, step_size=1)
+#     hip = forms.IntegerField(label='Biodra', min_value=20, max_value=300, step_size=1)
+#     thigh = forms.IntegerField(label='Udo', min_value=20, max_value=300, step_size=1)
+#     created_date = forms.DateField(label='Data', input_formats=DATE_INPUT_FORMATS)
+#
+#     class Meta:
+#         model = Reports
+#         exclude = ('user',)
 

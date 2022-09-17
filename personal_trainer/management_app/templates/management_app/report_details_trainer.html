@@ -1,0 +1,44 @@
+{% extends 'management_app/base.html' %}
+
+{% block content %}
+    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+    <h3>- RAPORT {{ report.id }} - {{ report.created_date|date:'d.m.Y' }} -</h3>
+<br>
+<h3>Pomiary:</h3>
+    <li>Waga: {{ report.weight }} kg</li>
+    <li>Talia: {{ report.waist }} cm</li>
+    <li>Brzuch: {{ report.stomach }} cm</li>
+    <li>Biodra: {{ report.hip }} cm</li>
+    <li>Udo: {{ report.thigh }} cm</li>
+<br>
+<h3>Treningi:</h3>
+    {% if report.training_first == True %}
+        <li>Trening 1: ✓</li>
+    {% else %}
+        <li>Trening 1: -</li>
+    {% endif %}
+
+    {% if report.training_second == True %}
+        <li>Trening 2: ✓ </li>
+    {% else %}
+        <li>Trening 2: -</li>
+    {% endif %}
+
+    {% if report.training_third == True %}
+        <li>Trening 3: ✓</li>
+    {% else %}
+        <li>Trening 3: -</li>
+    {% endif %}
+
+    {% if report.training_fourth == True %}
+        <li>Trening 4: ✓</li>
+    {% else %}
+        <li>Trening 4: -</li>
+    {% endif %}
+<br>
+<h3>Zdjęcia:</h3>
+<br>
+    <a href="/report_list_trainer/{{ user.id }}"</a>Powrót do listy<br><br>
+    <a href="/dashboard_trainer">Strona główna</a><br>
+    <a href="/logout"</a>Wyloguj
+{% endblock %}
