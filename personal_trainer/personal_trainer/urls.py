@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from management_app.views import (
-    logged_in,
     LoginView,
     LogoutView,
+    DashboardTrainerView,
+    DashboardUserView,
     UserListView,
     PracticalTipsView,
     ExercisesListView,
@@ -38,12 +39,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # for both:
-    path('logged_in', logged_in, name='logged_in'),
     path('', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('practical_tips/', PracticalTipsView.as_view(), name='practical-tips'),
 
     # for trainer:
+    path('dashboard_trainer/', DashboardTrainerView.as_view(), name='dashboard-trainer'),
     path('user_list/', UserListView.as_view(), name='user-list'),
     path('exercises_list/', ExercisesListView.as_view(), name='exercises-list'),
     path('add_exercise/', AddExerciseView.as_view(), name='add-exercise'),
@@ -58,6 +59,7 @@ urlpatterns = [
 
 
     # for users:
+    path('dashboard_user/', DashboardUserView.as_view(), name='dashboard-user'),
     path('macro_elements_user/', MacroElementsUserView.as_view(), name='macro-elements-user'),
     path('plan_user/', PlanUserView.as_view(), name='plan-user'),
 ]

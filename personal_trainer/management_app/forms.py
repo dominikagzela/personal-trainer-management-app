@@ -9,6 +9,14 @@ class LoginUserForm(forms.Form):
     username = forms.CharField(max_length=265)
     password = forms.CharField(widget=forms.PasswordInput)
 
+    # def clean(self):
+    #     cd = super().clean()
+    #     login = cd.get('username')
+    #     password = cd.get('password')
+    #     user = authenticate(username=login, password=password)
+    #     if user is None:
+    #         raise ValidationError('Dane logowania nie są prawidłowe')
+
 
 class PlanExercisesForm(forms.ModelForm):
     exercise = forms.ModelChoiceField(queryset=Exercises.objects.all(), label='Ćwiczenie', empty_label=None, to_field_name='name', required=False)

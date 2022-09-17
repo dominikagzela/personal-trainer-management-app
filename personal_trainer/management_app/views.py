@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.views.generic import View, FormView, CreateView, ListView, UpdateView, DeleteView, RedirectView
+from django.views.generic import View, FormView, CreateView, ListView, DetailView, UpdateView, DeleteView, RedirectView
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, MacroElements, Reports, Photos, Exercises, PlanExercises, PracticalTips
 from .forms import LoginUserForm, PlanExercisesForm
@@ -13,32 +13,33 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .decorators import user_required, trainer_required
 
-from django.db.models import Subquery, OuterRef
 from django.template import Library
 
 register = Library()
 
 
-def logged_in(request):
-    return HttpResponse('zalogowales sie')
-
-
 class LoginView(FormView):
     template_name = 'management_app/login_user.html'
     form_class = LoginUserForm
-    success_url = reverse_lazy('logged_in')
 
     def form_valid(self, form):
-        response = super().form_valid(form)
         cd = form.cleaned_data
         username = cd['username']
         password = cd['password']
         user = authenticate(self.request, username=username, password=password)
         if user is not None:
             login(self.request, user)
-            return response
+            print('aaa', user.is_trainer)
+            return super().form_valid(form)
         else:
             return HttpResponse('Błędne dane logowania.')
+
+    def get_success_url(self):
+        user_is_trainer = self.request.user.is_trainer
+        if user_is_trainer is True:
+            return reverse_lazy('dashboard-trainer')
+        else:
+            return reverse_lazy('dashboard-user')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -48,6 +49,24 @@ class LogoutView(RedirectView):
     def get(self, request, *args, **kwargs):
         logout(request)
         return super().get(request, *args, **kwargs)
+
+
+@method_decorator([login_required, trainer_required], name='dispatch')
+class DashboardTrainerView(ListView):
+    template_name = 'management_app/dashboard_trainer.html'
+    context_object_name = 'users'
+
+    def get_queryset(self):
+        return User.objects.filter(is_trainer=True)
+
+
+@method_decorator([login_required, user_required], name='dispatch')
+class DashboardUserView(ListView):
+    template_name = 'management_app/dashboard_user.html'
+    context_object_name = 'users'
+
+    def get_queryset(self):
+        return User.objects.filter(is_trainer=False).order_by('first_name')
 
 
 # tylko dla TRENERA
@@ -121,7 +140,7 @@ class DeleteExerciseView(DeleteView):
 
 
 # DLA USER'A:
-@method_decorator(login_required, name='dispatch')
+@method_decorator([login_required, user_required], name='dispatch')
 class MacroElementsUserView(ListView):
     model = MacroElements
     template_name = 'management_app/macro_elements.html'
@@ -132,7 +151,7 @@ class MacroElementsUserView(ListView):
         return MacroElements.objects.filter(user_id=current_user.id)
 
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator([login_required, user_required], name='dispatch')
 class PlanUserView(ListView):
     model = PlanExercises
     template_name = 'management_app/plan_user.html'
@@ -236,6 +255,7 @@ class PlanDeleteExercise(DeleteView):
             return super(PlanDeleteExercise, self).post(request, *args, **kwargs)
 
 
+@method_decorator([login_required, trainer_required], name='dispatch')
 class PlanAddExercise(CreateView):
     model = PlanExercises
     template_name = 'management_app/plan_add_exercise.html'
