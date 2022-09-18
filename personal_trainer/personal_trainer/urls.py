@@ -43,6 +43,7 @@ from management_app.views import (
     ReportDetailsTrainerView,
     ReportListUserView,
     ReportDetailsUserView,
+    CreateReportUserView,
 )
 
 urlpatterns = [
@@ -92,4 +93,6 @@ urlpatterns = [
          name='report-list-user'),
     path('report_details_user/<int:report_pk>/', ReportDetailsUserView.as_view(),
          name='report-details-user'),
+    path('create_report_user/', CreateReportUserView.as_view(),
+         name='create-report-user'),
 ]

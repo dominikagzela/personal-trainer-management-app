@@ -37,7 +37,7 @@ class Reports(models.Model):
     training_third = models.BooleanField()
     training_fourth = models.BooleanField()
     comments = models.TextField()
-    created_date = models.DateField(auto_created=True)
+    created_date = models.DateField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:

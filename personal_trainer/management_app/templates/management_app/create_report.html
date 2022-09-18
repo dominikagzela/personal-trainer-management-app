@@ -1,0 +1,17 @@
+{% extends 'management_app/base.html' %}
+
+
+{% block content %}
+    <h2>TWORZENIE NOWEGO RAPORTU</h2>
+    <h3>Raport {{ number_of_reports }} - {{ date|date:'d.m.Y' }}:</h3>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Dodaj">
+        <input type="submit" formnovalidate name="cancel" value="Anuluj"/>
+    </form>
+    <br>
+    <br>
+    <a href="/dashboard_trainer">Strona główna</a><br>
+    <a href="/logout">Wyloguj</a>
+{% endblock %}

@@ -13,7 +13,14 @@ from django.views.generic import (
 )
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, MacroElements, Reports, Photos, Exercises, PlanExercises, PracticalTips
-from .forms import LoginUserForm, PlanExercisesForm, ExercisesForm, PracticalTipForm, MacroElementsForm
+from .forms import (
+    LoginUserForm,
+    PlanExercisesForm,
+    ExercisesForm,
+    PracticalTipForm,
+    MacroElementsForm,
+    ReportForm,
+)
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.urls import reverse_lazy, reverse
 
@@ -21,6 +28,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .decorators import user_required, trainer_required
+import datetime
 
 from django.template import Library
 
@@ -260,10 +268,6 @@ class PlanUpdateExercise(UpdateView):
     form_class = PlanExercisesForm
     pk_url_kwarg = 'plan_pk'
 
-    def form_valid(self, form, **kwargs):
-        form.save()
-        return super(PlanUpdateExercise, self).form_valid(form)
-
     def get_initial(self, queryset=None):
         current_user_id = self.kwargs['user_id']
         current_training = self.kwargs['training_number']
@@ -280,15 +284,19 @@ class PlanUpdateExercise(UpdateView):
         initial['TUT'] = plan[0].TUT
         return initial
 
-    def get_success_url(self, *args, **kwargs):
-        current_user_id = self.kwargs['user_id']
-        return reverse('plan-for-user', args=[current_user_id])
-
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         current_training = self.kwargs['training_number']
         ctx['training_number'] = current_training
         return ctx
+
+    def get_success_url(self, *args, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        return reverse('plan-for-user', args=[current_user_id])
+
+    def form_valid(self, form, **kwargs):
+        form.save()
+        return super(PlanUpdateExercise, self).form_valid(form)
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
@@ -487,3 +495,34 @@ class ReportDetailsUserView(ListView):
             'photos': photos,
         }
         return ctx
+
+
+class CreateReportUserView(CreateView):
+    model = PlanExercises
+    template_name = 'management_app/create_report.html'
+    form_class = ReportForm
+    success_url = reverse_lazy('report-list-user')
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        current_user_id = self.request.user.id
+        reports = Reports.objects.filter(user=current_user_id)
+        number_of_reports = len(reports) + 1
+        today = datetime.date.today()
+        ctx['number_of_reports'] = number_of_reports
+        ctx['date'] = today
+        print(today)
+        return ctx
+
+    def form_valid(self, form, **kwargs):
+        current_user_id = self.request.user.id
+        user = User.objects.get(id=current_user_id)
+        form.instance.user = user
+        form.save()
+        return super(CreateReportUserView, self).form_valid(form)
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(self.success_url)
+        else:
+            return super(CreateReportUserView, self).post(request, *args, **kwargs)
