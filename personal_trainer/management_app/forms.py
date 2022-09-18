@@ -18,11 +18,22 @@ class LoginUserForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
-class AddPracticalTipForm(forms.ModelForm):
+class PracticalTipForm(forms.ModelForm):
     class Meta:
         model = PracticalTips
         fields = ['tip']
-        labels = {'tip': 'Wskazówka'}
+        labels = {'tip': 'Opis'}
+
+
+class MacroElementsForm(forms.ModelForm):
+    calories = forms.IntegerField(label='Kalorie', min_value=1000, max_value=8000, step_size=1)
+    protein = forms.IntegerField(label='Białko', min_value=1, max_value=800, step_size=1)
+    fat = forms.IntegerField(label='Tłuszcze', min_value=1, max_value=800, step_size=1)
+    carb = forms.IntegerField(label='Węglowodany', min_value=1, max_value=1500, step_size=1)
+
+    class Meta:
+        model = MacroElements
+        exclude = ['user']
 
 
 class ExercisesForm(forms.ModelForm):

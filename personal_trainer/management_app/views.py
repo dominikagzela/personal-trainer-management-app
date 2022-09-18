@@ -13,7 +13,7 @@ from django.views.generic import (
 )
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, MacroElements, Reports, Photos, Exercises, PlanExercises, PracticalTips
-from .forms import LoginUserForm, PlanExercisesForm, ExercisesForm, AddPracticalTipForm
+from .forms import LoginUserForm, PlanExercisesForm, ExercisesForm, PracticalTipForm, MacroElementsForm
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.urls import reverse_lazy, reverse
 
@@ -107,7 +107,7 @@ class PracticalTipsTrainerView(ListView):
 class AddPracticalTipView(CreateView):
     model = PracticalTips
     template_name = 'management_app/add_practical_tip.html'
-    form_class = AddPracticalTipForm
+    form_class = PracticalTipForm
     success_url = reverse_lazy('practical-tips-trainer')
 
     def post(self, request, *args, **kwargs):
@@ -121,7 +121,7 @@ class AddPracticalTipView(CreateView):
 class UpdatePracticalTipView(UpdateView):
     model = PracticalTips
     template_name = 'management_app/update_practical_tip.html'
-    fields = ['tip']
+    form_class = PracticalTipForm
     success_url = reverse_lazy('practical-tips-trainer')
 
     def post(self, request, *args, **kwargs):
@@ -248,9 +248,9 @@ class PlanCreateExercise(CreateView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class PlanUpdateExercise(UpdateView):
-    form_class = PlanExercisesForm
-    template_name = 'management_app/plan_update_exercise.html'
     model = PlanExercises
+    template_name = 'management_app/plan_update_exercise.html'
+    form_class = PlanExercisesForm
     pk_url_kwarg = 'plan_pk'
 
     def form_valid(self, form, **kwargs):
@@ -369,6 +369,29 @@ class MacroElementsTrainerView(ListView):
             'macros': macros,
         }
         return ctx
+
+
+@method_decorator([login_required, trainer_required], name='dispatch')
+class UpdateMacroElementsView(UpdateView):
+    model = MacroElements
+    template_name = 'management_app/update_macro_elements.html'
+    form_class = MacroElementsForm
+    pk_url_kwarg = 'macro_pk'
+
+    def get_success_url(self, *args, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        return reverse('macro-elements-trainer', args=[current_user_id])
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        current_user_id = self.kwargs['user_id']
+        user = User.objects.get(id=current_user_id)
+        ctx['user'] = user
+        return ctx
+
+    def form_valid(self, form, **kwargs):
+        form.save()
+        return super(UpdateMacroElementsView, self).form_valid(form)
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')

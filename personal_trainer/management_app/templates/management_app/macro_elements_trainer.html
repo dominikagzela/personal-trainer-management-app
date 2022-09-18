@@ -3,6 +3,9 @@
 {% block content %}
     <h3>{{ user.first_name }} {{ user.last_name }}</h3>
     <h3>MAKROSKŁADNIKI:</h3>
+<a href="/update_macro_elements/{{ user.id }}/{{ macros.pk }}">Edytuj</a>
+<br>
+<br>
 <br>
     <li><b>Kalorie:</b> {{ macros.calories }} kcal</li>
 <br>
