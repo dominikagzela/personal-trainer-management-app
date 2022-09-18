@@ -13,7 +13,7 @@ from django.views.generic import (
 )
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, MacroElements, Reports, Photos, Exercises, PlanExercises, PracticalTips
-from .forms import LoginUserForm, PlanExercisesForm, ExercisesForm
+from .forms import LoginUserForm, PlanExercisesForm, ExercisesForm, AddPracticalTipForm
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.urls import reverse_lazy, reverse
 
@@ -101,6 +101,47 @@ class PracticalTipsTrainerView(ListView):
     model = PracticalTips
     template_name = 'management_app/practical_tips_trainer.html'
     context_object_name = 'tips'
+
+
+@method_decorator([login_required, trainer_required], name='dispatch')
+class AddPracticalTipView(CreateView):
+    model = PracticalTips
+    template_name = 'management_app/add_practical_tip.html'
+    form_class = AddPracticalTipForm
+    success_url = reverse_lazy('practical-tips-trainer')
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(self.success_url)
+        else:
+            return super(AddPracticalTipView, self).post(request, *args, **kwargs)
+
+
+@method_decorator([login_required, trainer_required], name='dispatch')
+class UpdatePracticalTipView(UpdateView):
+    model = PracticalTips
+    template_name = 'management_app/update_practical_tip.html'
+    fields = ['tip']
+    success_url = reverse_lazy('practical-tips-trainer')
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(self.success_url)
+        else:
+            return super(UpdatePracticalTipView, self).post(request, *args, **kwargs)
+
+
+@method_decorator([login_required, trainer_required], name='dispatch')
+class DeletePracticalTipView(DeleteView):
+    model = PracticalTips
+    template_name = 'management_app/delete_practical_tip.html'
+    success_url = reverse_lazy('practical-tips-trainer')
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(self.success_url)
+        else:
+            return super(DeletePracticalTipView, self).post(request, *args, **kwargs)
 
 
 # tylko dla TRENERA:

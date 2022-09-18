@@ -2,12 +2,13 @@
 
 
 {% block content %}
-    <h2>TRENING {{ training_number }}</h2>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Zapisz">
+        <input type="submit" value="Dodaj">
         <input type="submit" formnovalidate name="cancel" value="Anuluj"/>
-    </form><br>
-    <a href="/logout"</a>Wyloguj
+    </form>
+    <br>
+    <a href="/dashboard_trainer">Strona główna</a><br>
+    <a href="/logout">Wyloguj</a>
 {% endblock %}

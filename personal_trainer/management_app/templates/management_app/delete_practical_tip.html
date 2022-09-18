@@ -5,8 +5,9 @@
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Zapisz">
-        <input type="submit" formnovalidate name="cancel" value="Anuluj"/>
+        <p>Czy jesteś pewny/a, że chcesz usunąć wskazówkę "{{ object.tip }}"?</p>
+        <input type="submit" value="Usuń">
+        <input type="submit" name="cancel" value="Anuluj"/>
     </form>
     <a href="/logout"</a>Wyloguj
 {% endblock %}

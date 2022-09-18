@@ -2,11 +2,33 @@
 
 {% block content %}
     <h3>Lista ogólnych wskazówek:</h3>
-        {% for tip in tips %}
-            <li>{{ tip.tip }}</li>
-        {% endfor %}
-    <br>
-    <br>
+    <a href="/add_practical_tip" target="_blank">Dodaj nową wskazówkę</a>
+<br>
+<br>
+    <ul>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tip in tips %}
+                <tr>
+                    <td><b>{{ forloop.counter }}.</b></td>
+                    <td>{{ tip.tip }}</td>
+                    <td><a href="/delete_practical_tip/{{ tip.id }}"</a>Usuń</td>
+                    <td><a href="/update_practical_tip/{{ tip.id }}"</a>Edytuj</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </ul>
+<br>
+<br>
     <a href="/dashboard_trainer">Strona główna</a><br>
     <a href="/logout"</a>Wyloguj
 {% endblock %}

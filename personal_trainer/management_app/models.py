@@ -76,3 +76,6 @@ class PlanExercises(models.Model):
 
 class PracticalTips(models.Model):
     tip = models.TextField()
+
+    class Meta:
+        ordering = ['pk']
