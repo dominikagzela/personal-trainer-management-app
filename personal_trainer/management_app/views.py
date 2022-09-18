@@ -68,11 +68,19 @@ class DashboardTrainerView(ListView):
     def get_queryset(self):
         return User.objects.filter(is_trainer=True)
 
+    def get_context_data(self, **kwargs):
+        current_user = self.request.user
+        user = User.objects.get(id=current_user.id)
+
+        ctx = {
+            'user': current_user,
+        }
+        return ctx
+
 
 @method_decorator([login_required, user_required], name='dispatch')
 class DashboardUserView(ListView):
     template_name = 'management_app/dashboard_user.html'
-    context_object_name = 'users'
 
     def get_queryset(self):
         return User.objects.filter(is_trainer=False).order_by('first_name')
@@ -205,7 +213,6 @@ class PlanUserView(ListView):
         ctx = super().get_context_data(**kwargs)
         current_user = self.request.user
         # Call the base implementation first to get a context
-        # ctx = super().get_context_data(**kwargs)
 
         plans = PlanExercises.objects.filter(user=current_user.id)
         get_trainings = []
