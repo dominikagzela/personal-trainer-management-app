@@ -37,6 +37,8 @@ from management_app.views import (
     MacroElementsTrainerView,
     ReportListTrainerView,
     ReportDetailsTrainerView,
+    ReportListUserView,
+    ReportDetailsUserView,
 )
 
 urlpatterns = [
@@ -58,15 +60,24 @@ urlpatterns = [
     path('plan_create_for_user/<int:user_id>/', PlanCreateExercise.as_view(), name='plan-create-for-user'),
     path('plan_update_exercise/<int:user_id>/<int:training_number>/<int:exercise_id>/<int:plan_pk>/',
          PlanUpdateExercise.as_view(), name='plan-update-exercise'),
-    path('plan_delete_exercise/<int:user_id>/<int:pk>/', PlanDeleteExercise.as_view(), name='plan-delete-exercise'),
-    path('plan_add_exercise/<int:user_id>/<int:training_number>/', PlanAddExercise.as_view(), name='plan-add-exercise'),
-    path('macro_elements_trainer/<int:user_id>/', MacroElementsTrainerView.as_view(), name='macro-elements-trainer'),
-    path('report_list_trainer/<int:user_id>/', ReportListTrainerView.as_view(), name='report-list-trainer'),
-    path('report_details_trainer/<int:user_id>/<int:report_pk>/', ReportDetailsTrainerView.as_view(), name='report-details-trainer'),
+    path('plan_delete_exercise/<int:user_id>/<int:pk>/', PlanDeleteExercise.as_view(),
+         name='plan-delete-exercise'),
+    path('plan_add_exercise/<int:user_id>/<int:training_number>/', PlanAddExercise.as_view(),
+         name='plan-add-exercise'),
+    path('macro_elements_trainer/<int:user_id>/', MacroElementsTrainerView.as_view(),
+         name='macro-elements-trainer'),
+    path('report_list_trainer/<int:user_id>/', ReportListTrainerView.as_view(),
+         name='report-list-trainer'),
+    path('report_details_trainer/<int:user_id>/<int:report_pk>/', ReportDetailsTrainerView.as_view(),
+         name='report-details-trainer'),
 
     # for users:
     path('dashboard_user/', DashboardUserView.as_view(), name='dashboard-user'),
     path('macro_elements_user/', MacroElementsUserView.as_view(), name='macro-elements-user'),
     path('plan_user/', PlanUserView.as_view(), name='plan-user'),
     path('practical_tips_user/', PracticalTipsUserView.as_view(), name='practical-tips-user'),
+    path('report_list_user/', ReportListUserView.as_view(),
+         name='report-list-user'),
+    path('report_details_user/<int:report_pk>/', ReportDetailsUserView.as_view(),
+         name='report-details-user'),
 ]

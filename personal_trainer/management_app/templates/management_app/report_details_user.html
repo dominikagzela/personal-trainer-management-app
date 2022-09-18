@@ -1,13 +1,12 @@
 {% extends 'management_app/base.html' %}
 
 {% block content %}
-    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
     <h3>- RAPORT {{ report.id }} - {{ report.created_date|date:'d.m.Y' }}</h3>
 <br>
 <h3>Pomiary:</h3>
-    <li>Waga: {{ report.weight }} kg</li>
+    <li>Waga:   {{ report.weight }} kg</li>
 <br>
-    <li>Talia: {{ report.waist }} cm</li>
+    <li>Talia:  {{ report.waist }} cm</li>
     <li>Brzuch: {{ report.stomach }} cm</li>
     <li>Biodra: {{ report.hip }} cm</li>
     <li>Udo: {{ report.thigh }} cm</li>
@@ -39,7 +38,7 @@
 <br>
 <h3>Zdjęcia:</h3>
 <br>
-    <a href="/report_list_trainer/{{ user.id }}"</a>Powrót do listy<br><br>
-    <a href="/dashboard_trainer">Strona główna</a><br>
+    <a href="/report_list_user"</a>Powrót do listy<br><br>
+    <a href="/dashboard_user">Strona główna</a><br>
     <a href="/logout"</a>Wyloguj
 {% endblock %}

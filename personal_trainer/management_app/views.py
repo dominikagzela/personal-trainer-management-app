@@ -116,7 +116,6 @@ class ExercisesListView(ListView):
 class AddExerciseView(CreateView):
     model = Exercises
     template_name = 'management_app/add_exercise.html'
-    # fields = ['name', 'description', 'url']
     form_class = ExercisesForm
     success_url = reverse_lazy('exercises-list')
 
@@ -299,11 +298,11 @@ class MacroElementsUserView(ListView):
     template_name = 'management_app/macro_elements_user.html'
 
     def get_queryset(self):
-        current_user_id = self.request.user
-        return MacroElements.objects.get(user_id=current_user_id)
+        current_user_id = self.request.user.id
+        return MacroElements.objects.get(user=current_user_id)
 
     def get_context_data(self, **kwargs):
-        current_user_id = self.request.user
+        current_user_id = self.request.user.id
         macros = MacroElements.objects.get(user=current_user_id)
         ctx = {
             'macros': macros,
@@ -318,7 +317,7 @@ class MacroElementsTrainerView(ListView):
 
     def get_queryset(self, **kwargs):
         current_user_id = self.kwargs['user_id']
-        return MacroElements.objects.get(user_id=current_user_id)
+        return MacroElements.objects.get(user=current_user_id)
 
     def get_context_data(self, **kwargs):
         current_user_id = self.kwargs['user_id']
@@ -331,6 +330,7 @@ class MacroElementsTrainerView(ListView):
         return ctx
 
 
+@method_decorator([login_required, trainer_required], name='dispatch')
 class ReportListTrainerView(ListView):
     model = Reports
     template_name = 'management_app/report_list_trainer.html'
@@ -341,7 +341,7 @@ class ReportListTrainerView(ListView):
 
     def get_context_data(self, **kwargs):
         current_user_id = self.kwargs['user_id']
-        user = User.objects.get(pk=current_user_id)
+        user = User.objects.get(id=current_user_id)
         reports = Reports.objects.filter(user=current_user_id)
         ctx = {
             'user': user,
@@ -350,6 +350,7 @@ class ReportListTrainerView(ListView):
         return ctx
 
 
+@method_decorator([login_required, trainer_required], name='dispatch')
 class ReportDetailsTrainerView(ListView):
     model = Reports
     template_name = 'management_app/report_details_trainer.html'
@@ -361,7 +362,51 @@ class ReportDetailsTrainerView(ListView):
     def get_context_data(self, **kwargs):
         current_user_id = self.kwargs['user_id']
         current_report_id = self.kwargs['report_pk']
-        user = User.objects.get(pk=current_user_id)
+        user = User.objects.get(id=current_user_id)
+        report = Reports.objects.get(pk=current_report_id)
+        photos = Photos.objects.filter(report=current_report_id)
+
+        ctx = {
+            'user': user,
+            'report': report,
+            'photos': photos,
+        }
+        return ctx
+
+
+@method_decorator([login_required, user_required], name='dispatch')
+class ReportListUserView(ListView):
+    model = Reports
+    template_name = 'management_app/report_list_user.html'
+
+    def get_queryset(self, **kwargs):
+        current_user_id = self.request.user.id
+        return Reports.objects.filter(user=current_user_id)
+
+    def get_context_data(self, **kwargs):
+        current_user_id = self.request.user.id
+        user = User.objects.get(id=current_user_id)
+        reports = Reports.objects.filter(user=current_user_id)
+        ctx = {
+            'user': user,
+            'reports': reports,
+        }
+        return ctx
+
+
+@method_decorator([login_required, user_required], name='dispatch')
+class ReportDetailsUserView(ListView):
+    model = Reports
+    template_name = 'management_app/report_details_user.html'
+
+    def get_queryset(self, **kwargs):
+        current_report_id = self.kwargs['report_pk']
+        return Reports.objects.filter(pk=current_report_id)
+
+    def get_context_data(self, **kwargs):
+        current_user_id = self.request.user.id
+        current_report_id = self.kwargs['report_pk']
+        user = User.objects.get(id=current_user_id)
         report = Reports.objects.get(pk=current_report_id)
         photos = Photos.objects.filter(report=current_report_id)
 
