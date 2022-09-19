@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from management_app.views import (
     LoginView,
     LogoutView,
@@ -45,6 +47,7 @@ from management_app.views import (
     ReportDetailsUserView,
     CreateReportUserView,
 )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -96,3 +99,6 @@ urlpatterns = [
     path('create_report_user/', CreateReportUserView.as_view(),
          name='create-report-user'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

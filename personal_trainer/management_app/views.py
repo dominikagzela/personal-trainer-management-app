@@ -20,6 +20,8 @@ from .forms import (
     PracticalTipForm,
     MacroElementsForm,
     ReportForm,
+    PhotosForm,
+    ReportPhotosMultiForm,
 )
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.urls import reverse_lazy, reverse
@@ -46,7 +48,6 @@ class LoginView(FormView):
         user = authenticate(self.request, username=username, password=password)
         if user is not None:
             login(self.request, user)
-            print('aaa', user.is_trainer)
             return super().form_valid(form)
         else:
             return HttpResponse('Błędne dane logowania.')
@@ -487,7 +488,7 @@ class ReportDetailsUserView(ListView):
         current_report_id = self.kwargs['report_pk']
         user = User.objects.get(id=current_user_id)
         report = Reports.objects.get(pk=current_report_id)
-        photos = Photos.objects.filter(report=current_report_id)
+        photos = Photos.objects.get(report=current_report_id)
 
         ctx = {
             'user': user,
@@ -497,32 +498,31 @@ class ReportDetailsUserView(ListView):
         return ctx
 
 
+@method_decorator([login_required, user_required], name='dispatch')
 class CreateReportUserView(CreateView):
-    model = PlanExercises
     template_name = 'management_app/create_report.html'
-    form_class = ReportForm
+    form_class = ReportPhotosMultiForm
     success_url = reverse_lazy('report-list-user')
-
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        current_user_id = self.request.user.id
-        reports = Reports.objects.filter(user=current_user_id)
-        number_of_reports = len(reports) + 1
-        today = datetime.date.today()
-        ctx['number_of_reports'] = number_of_reports
-        ctx['date'] = today
-        print(today)
-        return ctx
 
     def form_valid(self, form, **kwargs):
         current_user_id = self.request.user.id
         user = User.objects.get(id=current_user_id)
-        form.instance.user = user
-        form.save()
+        form['report'].instance.user = user
+        report = form['report'].save()
+        photos = form['photos'].save(commit=False)
+        photos.report = report
+        photos.save()
+
         return super(CreateReportUserView, self).form_valid(form)
 
     def post(self, request, *args, **kwargs):
         if "cancel" in request.POST:
-            return HttpResponseRedirect(self.success_url)
+            return HttpResponseRedirect(self.success_url())
         else:
             return super(CreateReportUserView, self).post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        today = datetime.date.today()
+        ctx['date'] = today
+        return ctx

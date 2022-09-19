@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 TRAINING = (
     (1, 'Trening pierwszy'),
     (2, 'Trening drugi'),

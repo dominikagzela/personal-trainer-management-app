@@ -11,11 +11,12 @@ from .models import (
 )
 from django.contrib.auth import authenticate
 from django.core.validators import EmailValidator, URLValidator
+from betterforms.multiform import MultiModelForm
 
 
 class LoginUserForm(forms.Form):
-    username = forms.CharField(max_length=265)
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(label='Login', max_length=265)
+    password = forms.CharField(label='Hasło', widget=forms.PasswordInput)
 
 
 class PracticalTipForm(forms.ModelForm):
@@ -52,7 +53,8 @@ class ExercisesForm(forms.ModelForm):
 
 
 class PlanExercisesForm(forms.ModelForm):
-    exercise = forms.ModelChoiceField(queryset=Exercises.objects.all(), label='Ćwiczenie', empty_label=None, to_field_name='name', required=False)
+    exercise = forms.ModelChoiceField(queryset=Exercises.objects.all(), label='Ćwiczenie', empty_label=None,
+                                      to_field_name='name', required=False)
     series = forms.IntegerField(label='Serie', min_value=1, max_value=10, step_size=1)
     repeat = forms.IntegerField(label='Powtórzenia', min_value=1, max_value=50, step_size=1)
 
@@ -81,3 +83,22 @@ class ReportForm(forms.ModelForm):
     class Meta:
         model = Reports
         exclude = ['user', 'created_date']
+
+
+class PhotosForm(forms.ModelForm):
+    class Meta:
+        model = Photos
+        exclude = ['report']
+        labels = {
+            'front': 'Przód',
+            'back': 'Tył',
+            'right': 'Prawa strona',
+            'left': 'Lewa strona',
+        }
+
+
+class ReportPhotosMultiForm(MultiModelForm):
+    form_classes = {
+        'report': ReportForm,
+        'photos': PhotosForm,
+    }
