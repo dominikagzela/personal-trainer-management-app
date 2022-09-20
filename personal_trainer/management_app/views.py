@@ -57,7 +57,7 @@ class LoginView(FormView):
 @method_decorator(login_required, name='dispatch')
 class LogoutView(RedirectView):
     '''
-    The view that allows the user to log out and redirects the login view.
+    The view that allows the user to log out and redirects to the login view.
     '''
     url = reverse_lazy('login')
 
@@ -90,7 +90,7 @@ class DashboardTrainerView(ListView):
 @method_decorator([login_required, user_required], name='dispatch')
 class DashboardUserView(ListView):
     '''
-    The view shows the dashboard for the ordinary user with the menu available.
+    The view shows the dashboard for the client with the menu available.
     '''
     template_name = 'management_app/dashboard_user.html'
 
@@ -101,7 +101,7 @@ class DashboardUserView(ListView):
 @method_decorator([login_required, trainer_required], name='dispatch')
 class UserListView(ListView):
     '''
-    The view shows the dashboard for the ordinary user with the menu available.
+    The view shows the superuser a list of clients.
     '''
     template_name = 'management_app/user_list.html'
     context_object_name = 'users'
@@ -110,9 +110,11 @@ class UserListView(ListView):
         return User.objects.filter(is_trainer=False).order_by('first_name')
 
 
-
 @method_decorator([login_required, user_required], name='dispatch')
 class PracticalTipsUserView(ListView):
+    '''
+    The view shows the client a list of practical tips.
+    '''
     model = PracticalTips
     template_name = 'management_app/practical_tips_user.html'
     context_object_name = 'tips'
@@ -120,6 +122,9 @@ class PracticalTipsUserView(ListView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class PracticalTipsTrainerView(ListView):
+    '''
+    The view shows the superuser a list of practical tips.
+    '''
     model = PracticalTips
     template_name = 'management_app/practical_tips_trainer.html'
     context_object_name = 'tips'
@@ -127,6 +132,9 @@ class PracticalTipsTrainerView(ListView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class AddPracticalTipView(CreateView):
+    '''
+    The view allows the superuser to add a new tip to the list of practical tips.
+    '''
     model = PracticalTips
     template_name = 'management_app/add_practical_tip.html'
     form_class = PracticalTipForm
@@ -141,6 +149,9 @@ class AddPracticalTipView(CreateView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class UpdatePracticalTipView(UpdateView):
+    '''
+    The view allows the superuser to update the selected tip.
+    '''
     model = PracticalTips
     template_name = 'management_app/update_practical_tip.html'
     form_class = PracticalTipForm
@@ -155,6 +166,9 @@ class UpdatePracticalTipView(UpdateView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class DeletePracticalTipView(DeleteView):
+    '''
+    The view allows the superuser to delete the selected tip.
+    '''
     model = PracticalTips
     template_name = 'management_app/delete_practical_tip.html'
     success_url = reverse_lazy('practical-tips-trainer')
@@ -166,17 +180,21 @@ class DeletePracticalTipView(DeleteView):
             return super(DeletePracticalTipView, self).post(request, *args, **kwargs)
 
 
-# tylko dla TRENERA:
 @method_decorator([login_required, trainer_required], name='dispatch')
 class ExercisesListView(ListView):
+    '''
+    The view shows the superuser a list of all available exercises.
+    '''
     model = Exercises
     template_name = 'management_app/exercises_list.html'
     context_object_name = 'exercises'
 
 
-# tylko dla TRENERA:
 @method_decorator([login_required, trainer_required], name='dispatch')
 class AddExerciseView(CreateView):
+    '''
+    The view allows the superuser to add a new exercise to the list of all available exercises.
+    '''
     model = Exercises
     template_name = 'management_app/add_exercise.html'
     form_class = ExercisesForm
@@ -192,6 +210,9 @@ class AddExerciseView(CreateView):
 # tylko dla TRENERA:
 @method_decorator([login_required, trainer_required], name='dispatch')
 class UpdateExerciseView(UpdateView):
+    '''
+    The view allows the superuser to update the selected exercise.
+    '''
     model = Exercises
     template_name = 'management_app/update_exercise.html'
     fields = ['name', 'description', 'url']
@@ -206,6 +227,9 @@ class UpdateExerciseView(UpdateView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class DeleteExerciseView(DeleteView):
+    '''
+    The view allows the superuser to delete the selected exercise.
+    '''
     model = Exercises
     template_name = 'management_app/delete_exercise.html'
     success_url = reverse_lazy('exercises-list')
@@ -219,6 +243,9 @@ class DeleteExerciseView(DeleteView):
 
 @method_decorator([login_required, user_required], name='dispatch')
 class PlanUserView(ListView):
+    '''
+    The view shows the client his exercise plan.
+    '''
     model = PlanExercises
     template_name = 'management_app/plan_user.html'
 
@@ -244,6 +271,9 @@ class PlanUserView(ListView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class PlanForUserView(ListView):
+    '''
+    The view shows the superuser an exercise plan for the selected client.
+    '''
     model = PlanExercises
     template_name = 'management_app/plan_trainer_view.html'
 
@@ -266,13 +296,11 @@ class PlanForUserView(ListView):
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
-class PlanCreateExerciseView(CreateView):
-    model = PlanExercises
-    template_name = 'management_app/plan_create_form.html'
-
-
-@method_decorator([login_required, trainer_required], name='dispatch')
 class PlanUpdateExerciseView(UpdateView):
+    '''
+    The view allows the superuser to update an exercise to the selected training
+    from plan of the selected client.
+    '''
     model = PlanExercises
     template_name = 'management_app/plan_update_exercise.html'
     form_class = PlanExercisesForm
@@ -311,6 +339,10 @@ class PlanUpdateExerciseView(UpdateView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class PlanDeleteExerciseView(DeleteView):
+    '''
+    The view allows the superuser to delete an exercise to the selected training
+    from plan of the selected client.
+    '''
     model = PlanExercises
     template_name = 'management_app/plan_delete_exercise.html'
 
@@ -327,6 +359,10 @@ class PlanDeleteExerciseView(DeleteView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class PlanAddExerciseView(CreateView):
+    '''
+    The view allows the superuser to add a new exercise to the selected training
+    from plan of the selected client.
+    '''
     model = PlanExercises
     template_name = 'management_app/plan_add_exercise.html'
     form_class = PlanExercisesForm
@@ -357,9 +393,11 @@ class PlanAddExerciseView(CreateView):
         return super(PlanAddExerciseView, self).form_valid(form)
 
 
-# DLA USER'A:
 @method_decorator([login_required, user_required], name='dispatch')
 class MacroElementsUserView(ListView):
+    '''
+    The view shows the client his macro elements.
+    '''
     model = MacroElements
     template_name = 'management_app/macro_elements_user.html'
 
@@ -385,6 +423,9 @@ class MacroElementsUserView(ListView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class MacroElementsTrainerView(ListView):
+    '''
+    The view shows the superuser macro elements for the selected client.
+    '''
     model = MacroElements
     template_name = 'management_app/macro_elements_trainer.html'
 
@@ -412,6 +453,9 @@ class MacroElementsTrainerView(ListView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class UpdateMacroElementsView(UpdateView):
+    '''
+    The view allows the superuser update macro elements for the selected client.
+    '''
     model = MacroElements
     template_name = 'management_app/update_macro_elements.html'
     form_class = MacroElementsForm
@@ -434,6 +478,9 @@ class UpdateMacroElementsView(UpdateView):
 
 
 class CreateMacroElementsView(CreateView):
+    '''
+    The view allows the superuser create macro elements for the selected client.
+    '''
     model = MacroElements
     template_name = 'management_app/create_macro_elements.html'
     form_class = MacroElementsForm
@@ -458,6 +505,9 @@ class CreateMacroElementsView(CreateView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class ReportListTrainerView(ListView):
+    '''
+    The view shows the superuser a list of reports for the selected client.
+    '''
     model = Reports
     template_name = 'management_app/report_list_trainer.html'
 
@@ -483,6 +533,9 @@ class ReportListTrainerView(ListView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class ReportDetailsTrainerView(ListView):
+    '''
+    The view shows the superuser details of selected report for the selected client.
+    '''
     model = Reports
     template_name = 'management_app/report_details_trainer.html'
 
@@ -491,8 +544,7 @@ class ReportDetailsTrainerView(ListView):
         return Reports.objects.filter(pk=current_report_id)
 
     def get_context_data(self, **kwargs):
-        # current_user_id = self.kwargs['user_id']
-        current_user_id = 2
+        current_user_id = self.kwargs['user_id']
         current_report_id = self.kwargs['report_pk']
         user = User.objects.get(id=current_user_id)
         report = Reports.objects.get(pk=current_report_id)
@@ -508,6 +560,9 @@ class ReportDetailsTrainerView(ListView):
 
 @method_decorator([login_required, user_required], name='dispatch')
 class ReportListUserView(ListView):
+    '''
+    The view shows the client a list of his reports.
+    '''
     model = Reports
     template_name = 'management_app/report_list_user.html'
 
@@ -533,6 +588,9 @@ class ReportListUserView(ListView):
 
 @method_decorator([login_required, user_required], name='dispatch')
 class ReportDetailsUserView(ListView):
+    '''
+    The view shows the client details of his selected report.
+    '''
     model = Reports
     template_name = 'management_app/report_details_user.html'
 
@@ -557,6 +615,9 @@ class ReportDetailsUserView(ListView):
 
 @method_decorator([login_required, user_required], name='dispatch')
 class CreateReportUserView(CreateView):
+    '''
+    The view allows the client to create new report to the list of his reports.
+    '''
     template_name = 'management_app/create_report.html'
     form_class = ReportPhotosMultiForm
     success_url = reverse_lazy('report-list-user')
