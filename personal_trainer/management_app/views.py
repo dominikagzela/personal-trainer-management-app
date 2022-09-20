@@ -440,11 +440,12 @@ class ReportDetailsTrainerView(ListView):
         return Reports.objects.filter(pk=current_report_id)
 
     def get_context_data(self, **kwargs):
-        current_user_id = self.kwargs['user_id']
+        # current_user_id = self.kwargs['user_id']
+        current_user_id = 2
         current_report_id = self.kwargs['report_pk']
         user = User.objects.get(id=current_user_id)
         report = Reports.objects.get(pk=current_report_id)
-        photos = Photos.objects.filter(report=current_report_id)
+        photos = Photos.objects.get(report=current_report_id)
 
         ctx = {
             'user': user,
@@ -504,6 +505,12 @@ class CreateReportUserView(CreateView):
     form_class = ReportPhotosMultiForm
     success_url = reverse_lazy('report-list-user')
 
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        today = datetime.date.today()
+        ctx['date'] = today
+        return ctx
+
     def form_valid(self, form, **kwargs):
         current_user_id = self.request.user.id
         user = User.objects.get(id=current_user_id)
@@ -520,9 +527,3 @@ class CreateReportUserView(CreateView):
             return HttpResponseRedirect(self.success_url())
         else:
             return super(CreateReportUserView, self).post(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        today = datetime.date.today()
-        ctx['date'] = today
-        return ctx

@@ -1,11 +1,11 @@
 {% extends 'management_app/base.html' %}
 
 {% block content %}
-<h1>{{ user.first_name }} {{ user.last_name }}</h1>
-<h2>Plan ćwiczeń:</h2>
+<h2>{{ user.first_name }} {{ user.last_name }}</h2>
+<h3>PLAN ĆWICZEŃ:</h3>
     <ul>
         {% for training in trainings %}
-        <h2>TRENING {{ training }}</h2>
+        <h2>TRENING {{ training }}:</h2>
         <table>
             <thead>
             <tr>

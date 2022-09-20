@@ -1,7 +1,7 @@
 {% extends 'management_app/base.html' %}
 
 {% block content %}
-    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
     <h3>MAKROSKŁADNIKI:</h3>
 <a href="/update_macro_elements/{{ user.id }}/{{ macros.pk }}">Edytuj</a>
 <br>

@@ -1,8 +1,8 @@
 {% extends 'management_app/base.html' %}
 
 {% block content %}
-    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
-    <h3>- RAPORT {{ report.id }} - {{ report.created_date|date:'d.m.Y' }}</h3>
+    <h2>{{ user.first_name }} {{ user.last_name }}</h3>
+    <h3>RAPORT Z {{ report.created_date|date:'d.m.Y' }}:</h3>
 <br>
 <h3>Pomiary:</h3>
     <li>Waga: {{ report.weight }} kg</li>
@@ -38,6 +38,12 @@
     {% endif %}
 <br>
 <h3>Zdjęcia:</h3>
+    <ul>
+        <li><p>Przód:</p><img title="przód" src ="/../../media/{{ photos.front }}"></li>
+        <li><p>Tył:</p><img title="tył" src ="/../../media/{{ photos.back }}"></li>
+        <li><p>Prawa strona:</p><img title="prawo" src ="/../../media/{{ photos.right }}"></li>
+        <li><p>Lewa strona:</p><img title="lewo" src ="/../../media/{{ photos.left }}"></li>
+    </ul>
 <br>
     <a href="/report_list_trainer/{{ user.id }}"</a>Powrót do listy<br><br>
     <a href="/dashboard_trainer">Strona główna</a><br>
