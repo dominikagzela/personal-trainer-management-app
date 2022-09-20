@@ -1,17 +1,12 @@
-from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
 from django.views.generic import (
-    View,
     FormView,
     CreateView,
     ListView,
-    DetailView,
     UpdateView,
     DeleteView,
     RedirectView,
 )
-from django.core.exceptions import ObjectDoesNotExist
 from .models import User, MacroElements, Reports, Photos, Exercises, PlanExercises, PracticalTips
 from .forms import (
     LoginUserForm,
@@ -19,11 +14,9 @@ from .forms import (
     ExercisesForm,
     PracticalTipForm,
     MacroElementsForm,
-    ReportForm,
-    PhotosForm,
     ReportPhotosMultiForm,
 )
-from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse_lazy, reverse
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -31,13 +24,14 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .decorators import user_required, trainer_required
 import datetime
-
-from django.template import Library
-
-register = Library()
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class LoginView(FormView):
+    '''
+    The view that allows the user to log in, checks that the logged in user is a superuser
+    or ordinary user, on this basis, it redirects the user to the proper dashboard.
+    '''
     template_name = 'management_app/login_user.html'
     form_class = LoginUserForm
 
@@ -62,6 +56,9 @@ class LoginView(FormView):
 
 @method_decorator(login_required, name='dispatch')
 class LogoutView(RedirectView):
+    '''
+    The view that allows the user to log out and redirects the login view.
+    '''
     url = reverse_lazy('login')
 
     def get(self, request, *args, **kwargs):
@@ -71,6 +68,9 @@ class LogoutView(RedirectView):
 
 @method_decorator([login_required, trainer_required], name='dispatch')
 class DashboardTrainerView(ListView):
+    '''
+    The view shows the dashboard for the superuser with the menu available.
+    '''
     template_name = 'management_app/dashboard_trainer.html'
     context_object_name = 'users'
 
@@ -89,15 +89,20 @@ class DashboardTrainerView(ListView):
 
 @method_decorator([login_required, user_required], name='dispatch')
 class DashboardUserView(ListView):
+    '''
+    The view shows the dashboard for the ordinary user with the menu available.
+    '''
     template_name = 'management_app/dashboard_user.html'
 
     def get_queryset(self):
         return User.objects.filter(is_trainer=False).order_by('first_name')
 
 
-# tylko dla TRENERA
 @method_decorator([login_required, trainer_required], name='dispatch')
 class UserListView(ListView):
+    '''
+    The view shows the dashboard for the ordinary user with the menu available.
+    '''
     template_name = 'management_app/user_list.html'
     context_object_name = 'users'
 
@@ -105,7 +110,7 @@ class UserListView(ListView):
         return User.objects.filter(is_trainer=False).order_by('first_name')
 
 
-# dla OBU STRON:
+
 @method_decorator([login_required, user_required], name='dispatch')
 class PracticalTipsUserView(ListView):
     model = PracticalTips
@@ -199,7 +204,6 @@ class UpdateExerciseView(UpdateView):
             return super(UpdateExerciseView, self).post(request, *args, **kwargs)
 
 
-# tylko dla TRENERA:
 @method_decorator([login_required, trainer_required], name='dispatch')
 class DeleteExerciseView(DeleteView):
     model = Exercises
@@ -225,9 +229,12 @@ class PlanUserView(ListView):
 
         plans = PlanExercises.objects.filter(user=current_user.id)
         get_trainings = []
-        for plan in plans:
-            if not (plan.training_number in get_trainings):
-                get_trainings.append(plan.training_number)
+        if not plans:
+            plans = None
+        else:
+            for plan in plans:
+                if not (plan.training_number in get_trainings):
+                    get_trainings.append(plan.training_number)
         ctx = {
             'trainings': get_trainings,
             'plans': plans
@@ -236,7 +243,7 @@ class PlanUserView(ListView):
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
-class PlanTrainerView(ListView):
+class PlanForUserView(ListView):
     model = PlanExercises
     template_name = 'management_app/plan_trainer_view.html'
 
@@ -244,10 +251,12 @@ class PlanTrainerView(ListView):
         current_user_id = self.kwargs['user_id']
         current_user = User.objects.get(id=current_user_id)
         plans = PlanExercises.objects.filter(user=current_user_id)
-        get_trainings = []
-        for plan in plans:
-            if not (plan.training_number in get_trainings):
-                get_trainings.append(plan.training_number)
+        get_trainings = [1, 2, 3, 4]
+        if not plans:
+            plans = None
+        #     for plan in plans:
+        #         if not (plan.training_number in get_trainings):
+        #             get_trainings.append(plan.training_number)
         ctx = {
             'user': current_user,
             'trainings': get_trainings,
@@ -257,13 +266,13 @@ class PlanTrainerView(ListView):
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
-class PlanCreateExercise(CreateView):
+class PlanCreateExerciseView(CreateView):
     model = PlanExercises
     template_name = 'management_app/plan_create_form.html'
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
-class PlanUpdateExercise(UpdateView):
+class PlanUpdateExerciseView(UpdateView):
     model = PlanExercises
     template_name = 'management_app/plan_update_exercise.html'
     form_class = PlanExercisesForm
@@ -273,7 +282,7 @@ class PlanUpdateExercise(UpdateView):
         current_user_id = self.kwargs['user_id']
         current_training = self.kwargs['training_number']
         current_exercise_id = self.kwargs['exercise_id']
-        initial = super(PlanUpdateExercise, self).get_initial()
+        initial = super(PlanUpdateExerciseView, self).get_initial()
         plan = PlanExercises.objects.filter(
             user=current_user_id).filter(
             training_number=current_training).filter(
@@ -297,11 +306,11 @@ class PlanUpdateExercise(UpdateView):
 
     def form_valid(self, form, **kwargs):
         form.save()
-        return super(PlanUpdateExercise, self).form_valid(form)
+        return super(PlanUpdateExerciseView, self).form_valid(form)
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
-class PlanDeleteExercise(DeleteView):
+class PlanDeleteExerciseView(DeleteView):
     model = PlanExercises
     template_name = 'management_app/plan_delete_exercise.html'
 
@@ -313,11 +322,11 @@ class PlanDeleteExercise(DeleteView):
         if "cancel" in request.POST:
             return HttpResponseRedirect(self.get_success_url())
         else:
-            return super(PlanDeleteExercise, self).post(request, *args, **kwargs)
+            return super(PlanDeleteExerciseView, self).post(request, *args, **kwargs)
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
-class PlanAddExercise(CreateView):
+class PlanAddExerciseView(CreateView):
     model = PlanExercises
     template_name = 'management_app/plan_add_exercise.html'
     form_class = PlanExercisesForm
@@ -330,7 +339,7 @@ class PlanAddExercise(CreateView):
         if "cancel" in request.POST:
             return HttpResponseRedirect(self.get_success_url())
         else:
-            return super(PlanAddExercise, self).post(request, *args, **kwargs)
+            return super(PlanAddExerciseView, self).post(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -345,7 +354,7 @@ class PlanAddExercise(CreateView):
         form.instance.user = user
         form.instance.training_number = training_number_id
         form.save()
-        return super(PlanAddExercise, self).form_valid(form)
+        return super(PlanAddExerciseView, self).form_valid(form)
 
 
 # DLA USER'A:
@@ -356,11 +365,18 @@ class MacroElementsUserView(ListView):
 
     def get_queryset(self):
         current_user_id = self.request.user.id
-        return MacroElements.objects.get(user=current_user_id)
+        try:
+            macro_elements = MacroElements.objects.get(user=current_user_id)
+        except ObjectDoesNotExist:
+            macro_elements = None
+        return macro_elements
 
     def get_context_data(self, **kwargs):
         current_user_id = self.request.user.id
-        macros = MacroElements.objects.get(user=current_user_id)
+        try:
+            macros = MacroElements.objects.get(user=current_user_id)
+        except ObjectDoesNotExist:
+            macros = None
         ctx = {
             'macros': macros,
         }
@@ -374,12 +390,19 @@ class MacroElementsTrainerView(ListView):
 
     def get_queryset(self, **kwargs):
         current_user_id = self.kwargs['user_id']
-        return MacroElements.objects.get(user=current_user_id)
+        try:
+            macro_elements = MacroElements.objects.get(user=current_user_id)
+        except ObjectDoesNotExist:
+            macro_elements = None
+        return macro_elements
 
     def get_context_data(self, **kwargs):
         current_user_id = self.kwargs['user_id']
         current_user = User.objects.get(id=current_user_id)
-        macros = MacroElements.objects.get(user=current_user_id)
+        try:
+            macros = MacroElements.objects.get(user=current_user_id)
+        except ObjectDoesNotExist:
+            macros = None
         ctx = {
             'user': current_user,
             'macros': macros,
@@ -410,6 +433,29 @@ class UpdateMacroElementsView(UpdateView):
         return super(UpdateMacroElementsView, self).form_valid(form)
 
 
+class CreateMacroElementsView(CreateView):
+    model = MacroElements
+    template_name = 'management_app/create_macro_elements.html'
+    form_class = MacroElementsForm
+
+    def form_valid(self, form, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        user = User.objects.get(id=current_user_id)
+        form.instance.user = user
+        form.save()
+        return super(CreateMacroElementsView, self).form_valid(form)
+
+    def get_success_url(self, *args, **kwargs):
+        current_user_id = self.kwargs['user_id']
+        return reverse('macro-elements-trainer', args=[current_user_id])
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(CreateMacroElementsView, self).post(request, *args, **kwargs)
+
+
 @method_decorator([login_required, trainer_required], name='dispatch')
 class ReportListTrainerView(ListView):
     model = Reports
@@ -417,12 +463,17 @@ class ReportListTrainerView(ListView):
 
     def get_queryset(self, **kwargs):
         current_user_id = self.kwargs['user_id']
-        return Reports.objects.filter(user=current_user_id)
+        reports = Reports.objects.filter(user=current_user_id)
+        if not reports:
+            reports = None
+        return reports
 
     def get_context_data(self, **kwargs):
         current_user_id = self.kwargs['user_id']
         user = User.objects.get(id=current_user_id)
         reports = Reports.objects.filter(user=current_user_id)
+        if not reports:
+            reports = None
         ctx = {
             'user': user,
             'reports': reports,
@@ -462,12 +513,17 @@ class ReportListUserView(ListView):
 
     def get_queryset(self, **kwargs):
         current_user_id = self.request.user.id
-        return Reports.objects.filter(user=current_user_id)
+        reports = Reports.objects.filter(user=current_user_id)
+        if not reports:
+            reports = None
+        return reports
 
     def get_context_data(self, **kwargs):
         current_user_id = self.request.user.id
         user = User.objects.get(id=current_user_id)
         reports = Reports.objects.filter(user=current_user_id)
+        if not reports:
+            reports = None
         ctx = {
             'user': user,
             'reports': reports,

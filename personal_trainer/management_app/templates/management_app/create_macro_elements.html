@@ -1,0 +1,16 @@
+{% extends 'management_app/base.html' %}
+
+
+{% block content %}
+    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+    <h3>MAKROSKŁADNIKI</h3><br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <input type="submit" value="Zapisz">
+        <input type="submit" formnovalidate name="cancel" value="Anuluj"/>
+    </form>
+<br><br>
+    <a href="/logout"</a>Wyloguj
+{% endblock %}

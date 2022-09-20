@@ -2,6 +2,11 @@
 
 {% block content %}
     <a href="/create_report_user">Stwórz nowy raport</a><br>
+{% if reports == None %}
+    <br>
+    <h3 style="color: red">Brak przesłanych raportów</h3>
+    <br><br>
+{% else %}
     <h3>POMIARY:</h3>
     <ul>
         <table>
@@ -101,6 +106,7 @@
         </table>
     </ul>
     <br>
+{% endif %}
     <a href="/dashboard_user">Strona główna</a><br>
     <a href="/logout"</a>Wyloguj
 {% endblock %}

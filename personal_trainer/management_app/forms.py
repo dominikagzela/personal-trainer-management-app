@@ -1,17 +1,12 @@
 from django import forms
-from django.core.exceptions import ValidationError
+from betterforms.multiform import MultiModelForm
 from .models import (
-    User,
     MacroElements,
     Reports, Photos,
     Exercises,
     PlanExercises,
-    TRAINING,
     PracticalTips,
 )
-from django.contrib.auth import authenticate
-from django.core.validators import EmailValidator, URLValidator
-from betterforms.multiform import MultiModelForm
 
 
 class LoginUserForm(forms.Form):
@@ -53,8 +48,8 @@ class ExercisesForm(forms.ModelForm):
 
 
 class PlanExercisesForm(forms.ModelForm):
-    exercise = forms.ModelChoiceField(queryset=Exercises.objects.all(), label='Ćwiczenie', empty_label=None,
-                                      to_field_name='name', required=False)
+    exercise = forms.ModelChoiceField(queryset=Exercises.objects.all(), label='Ćwiczenie',
+                                      empty_label=None, to_field_name='name', required=False)
     series = forms.IntegerField(label='Serie', min_value=1, max_value=10, step_size=1)
     repeat = forms.IntegerField(label='Powtórzenia', min_value=1, max_value=50, step_size=1)
 

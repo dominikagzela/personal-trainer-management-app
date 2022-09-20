@@ -3,11 +3,15 @@
 {% block content %}
     <h3>MAKROSKŁADNIKI:</h3>
 <br>
+{% if macros == None %}
+    <h3 style="color: red">Brak utworzonych makroskładników</h3>
+{% else %}
     <li><b>Kalorie:</b> {{ macros.calories }} kcal</li>
 <br>
     <li><b>Białko:</b> {{ macros.protein }} g</li>
     <li><b>Tłuszcze:</b> {{ macros.fat }} g</li>
     <li><b>Węglowodany:</b> {{ macros.carb }} g</li>
+{% endif %}
 <br>
 <br>
     <br>

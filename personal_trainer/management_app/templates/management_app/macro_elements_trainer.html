@@ -3,15 +3,21 @@
 {% block content %}
     <h2>{{ user.first_name }} {{ user.last_name }}</h2>
     <h3>MAKROSKŁADNIKI:</h3>
-<a href="/update_macro_elements/{{ user.id }}/{{ macros.pk }}">Edytuj</a>
-<br>
-<br>
-<br>
-    <li><b>Kalorie:</b> {{ macros.calories }} kcal</li>
-<br>
-    <li><b>Białko:</b> {{ macros.protein }} g</li>
-    <li><b>Tłuszcze:</b> {{ macros.fat }} g</li>
-    <li><b>Węglowodany:</b> {{ macros.carb }} g</li>
+{% if macros == None %}
+    <h3 style="color: red">Brak utworzonych makroskładników</h3>
+    <a href="/create_macro_elements/{{ user.id }}/">Utwórz</a>
+    <br><br>
+{% else %}
+    <a href="/update_macro_elements/{{ user.id }}/{{ macros.pk }}">Edytuj</a>
+    <br>
+    <br>
+    <br>
+        <li><b>Kalorie:</b> {{ macros.calories }} kcal</li>
+    <br>
+        <li><b>Białko:</b> {{ macros.protein }} g</li>
+        <li><b>Tłuszcze:</b> {{ macros.fat }} g</li>
+        <li><b>Węglowodany:</b> {{ macros.carb }} g</li>
+{% endif %}
 <br>
 <br>
     <a href="/user_list"</a>Powrót do listy<br><br>
