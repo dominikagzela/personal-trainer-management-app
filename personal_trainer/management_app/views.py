@@ -7,7 +7,15 @@ from django.views.generic import (
     DeleteView,
     RedirectView,
 )
-from .models import User, MacroElements, Reports, Photos, Exercises, PlanExercises, PracticalTips
+from .models import (
+    User,
+    MacroElements,
+    Reports,
+    Photos,
+    Exercises,
+    PlanExercises,
+    PracticalTips
+)
 from .forms import (
     LoginUserForm,
     PlanExercisesForm,
@@ -30,7 +38,7 @@ from django.core.exceptions import ObjectDoesNotExist
 class LoginView(FormView):
     '''
     The view that allows the user to log in, checks that the logged in user is a superuser
-    or ordinary user, on this basis, it redirects the user to the proper dashboard.
+    or client and on this basis, it redirects user to the proper dashboard.
     '''
     template_name = 'management_app/login_user.html'
     form_class = LoginUserForm
@@ -477,6 +485,7 @@ class UpdateMacroElementsView(UpdateView):
         return super(UpdateMacroElementsView, self).form_valid(form)
 
 
+@method_decorator([login_required, trainer_required], name='dispatch')
 class CreateMacroElementsView(CreateView):
     '''
     The view allows the superuser create macro elements for the selected client.

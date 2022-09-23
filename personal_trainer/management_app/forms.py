@@ -10,11 +10,17 @@ from .models import (
 
 
 class LoginUserForm(forms.Form):
+    '''
+    Login form.
+    '''
     username = forms.CharField(label='Login', max_length=265)
     password = forms.CharField(label='Hasło', widget=forms.PasswordInput)
 
 
 class PracticalTipForm(forms.ModelForm):
+    '''
+    Practical tip form for superuser.
+    '''
     class Meta:
         model = PracticalTips
         fields = ['tip']
@@ -22,6 +28,9 @@ class PracticalTipForm(forms.ModelForm):
 
 
 class MacroElementsForm(forms.ModelForm):
+    '''
+    Macro elements form for superuser.
+    '''
     calories = forms.IntegerField(label='Kalorie (kcal)', min_value=1000, max_value=8000, step_size=1)
     protein = forms.IntegerField(label='Białko (g)', min_value=1, max_value=800, step_size=1)
     fat = forms.IntegerField(label='Tłuszcze (g)', min_value=1, max_value=800, step_size=1)
@@ -33,6 +42,9 @@ class MacroElementsForm(forms.ModelForm):
 
 
 class ExercisesForm(forms.ModelForm):
+    '''
+    Exercises form for superuser.
+    '''
     class Meta:
         model = Exercises
         fields = [
@@ -48,6 +60,9 @@ class ExercisesForm(forms.ModelForm):
 
 
 class PlanExercisesForm(forms.ModelForm):
+    '''
+    Form for plan of exercises for superuser.
+    '''
     exercise = forms.ModelChoiceField(queryset=Exercises.objects.all(), label='Ćwiczenie',
                                       empty_label=None, to_field_name='name', required=False)
     series = forms.IntegerField(label='Serie', min_value=1, max_value=10, step_size=1)
@@ -64,6 +79,9 @@ class PlanExercisesForm(forms.ModelForm):
 
 
 class ReportForm(forms.ModelForm):
+    '''
+    Report form for client.
+    '''
     weight = forms.IntegerField(label='Waga (kg)', min_value=20, max_value=300, step_size=1)
     waist = forms.IntegerField(label='Talia (cm)', min_value=20, max_value=300, step_size=1)
     stomach = forms.IntegerField(label='Brzuch (cm)', min_value=20, max_value=300, step_size=1)
@@ -81,6 +99,9 @@ class ReportForm(forms.ModelForm):
 
 
 class PhotosForm(forms.ModelForm):
+    '''
+    Photos form for creating report by client.
+    '''
     class Meta:
         model = Photos
         exclude = ['report']
@@ -93,6 +114,9 @@ class PhotosForm(forms.ModelForm):
 
 
 class ReportPhotosMultiForm(MultiModelForm):
+    '''
+    Report and photos form combined.
+    '''
     form_classes = {
         'report': ReportForm,
         'photos': PhotosForm,
