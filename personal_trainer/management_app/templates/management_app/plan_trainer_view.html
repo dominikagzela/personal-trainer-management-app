@@ -4,7 +4,7 @@
 <h2>{{ user.first_name }} {{ user.last_name }}</h2>
 <h3>PLAN ĆWICZEŃ:</h3>
 {% if plans == None %}
-    <h3 style="color: red">Brak utworzonego planu</h3>
+    <br><h3 style="color: red">Brak utworzonego planu</h3>
 {% endif %}
     <ul>
         {% for training in trainings %}
@@ -42,7 +42,7 @@
         <h3><a href="/plan_add_exercise/{{ user.id }}/{{ training }}/">Dodaj ćwiczenie</a></h3>
         {% endfor %}
     </ul><br>
-
+<br>
 <a href="/user_list"</a>Powrót do listy<br><br>
 <a href="/dashboard_trainer">Strona główna</a><br>
 <a href="/logout"</a>Wyloguj

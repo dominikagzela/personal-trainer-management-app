@@ -80,19 +80,9 @@ class DashboardTrainerView(ListView):
     The view shows the dashboard for the superuser with the menu available.
     '''
     template_name = 'management_app/dashboard_trainer.html'
-    context_object_name = 'users'
 
     def get_queryset(self):
         return User.objects.filter(is_trainer=True)
-
-    def get_context_data(self, **kwargs):
-        current_user = self.request.user
-        user = User.objects.get(id=current_user.id)
-
-        ctx = {
-            'user': current_user,
-        }
-        return ctx
 
 
 @method_decorator([login_required, user_required], name='dispatch')
@@ -143,7 +133,6 @@ class AddPracticalTipView(CreateView):
     '''
     The view allows the superuser to add a new tip to the list of practical tips.
     '''
-    model = PracticalTips
     template_name = 'management_app/add_practical_tip.html'
     form_class = PracticalTipForm
     success_url = reverse_lazy('practical-tips-trainer')
@@ -160,7 +149,6 @@ class UpdatePracticalTipView(UpdateView):
     '''
     The view allows the superuser to update the selected tip.
     '''
-    model = PracticalTips
     template_name = 'management_app/update_practical_tip.html'
     form_class = PracticalTipForm
     success_url = reverse_lazy('practical-tips-trainer')
@@ -203,7 +191,6 @@ class AddExerciseView(CreateView):
     '''
     The view allows the superuser to add a new exercise to the list of all available exercises.
     '''
-    model = Exercises
     template_name = 'management_app/add_exercise.html'
     form_class = ExercisesForm
     success_url = reverse_lazy('exercises-list')
@@ -215,7 +202,6 @@ class AddExerciseView(CreateView):
             return super(AddExerciseView, self).post(request, *args, **kwargs)
 
 
-# tylko dla TRENERA:
 @method_decorator([login_required, trainer_required], name='dispatch')
 class UpdateExerciseView(UpdateView):
     '''
@@ -223,7 +209,7 @@ class UpdateExerciseView(UpdateView):
     '''
     model = Exercises
     template_name = 'management_app/update_exercise.html'
-    fields = ['name', 'description', 'url']
+    form_class = ExercisesForm
     success_url = reverse_lazy('exercises-list')
 
     def post(self, request, *args, **kwargs):
@@ -258,9 +244,7 @@ class PlanUserView(ListView):
     template_name = 'management_app/plan_user.html'
 
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
         current_user = self.request.user
-        # Call the base implementation first to get a context
 
         plans = PlanExercises.objects.filter(user=current_user.id)
         get_trainings = []
@@ -288,13 +272,11 @@ class PlanForUserView(ListView):
     def get_context_data(self, **kwargs):
         current_user_id = self.kwargs['user_id']
         current_user = User.objects.get(id=current_user_id)
+
         plans = PlanExercises.objects.filter(user=current_user_id)
         get_trainings = [1, 2, 3, 4]
         if not plans:
             plans = None
-        #     for plan in plans:
-        #         if not (plan.training_number in get_trainings):
-        #             get_trainings.append(plan.training_number)
         ctx = {
             'user': current_user,
             'trainings': get_trainings,
@@ -318,6 +300,7 @@ class PlanUpdateExerciseView(UpdateView):
         current_user_id = self.kwargs['user_id']
         current_training = self.kwargs['training_number']
         current_exercise_id = self.kwargs['exercise_id']
+
         initial = super(PlanUpdateExerciseView, self).get_initial()
         plan = PlanExercises.objects.filter(
             user=current_user_id).filter(
@@ -343,6 +326,12 @@ class PlanUpdateExerciseView(UpdateView):
     def form_valid(self, form, **kwargs):
         form.save()
         return super(PlanUpdateExerciseView, self).form_valid(form)
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(PlanUpdateExerciseView, self).post(request, *args, **kwargs)
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
@@ -379,12 +368,6 @@ class PlanAddExerciseView(CreateView):
         current_user_id = self.kwargs['user_id']
         return reverse_lazy('plan-for-user', kwargs={'user_id': current_user_id})
 
-    def post(self, request, *args, **kwargs):
-        if "cancel" in request.POST:
-            return HttpResponseRedirect(self.get_success_url())
-        else:
-            return super(PlanAddExerciseView, self).post(request, *args, **kwargs)
-
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         current_training = self.kwargs['training_number']
@@ -399,6 +382,12 @@ class PlanAddExerciseView(CreateView):
         form.instance.training_number = training_number_id
         form.save()
         return super(PlanAddExerciseView, self).form_valid(form)
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(PlanAddExerciseView, self).post(request, *args, **kwargs)
 
 
 @method_decorator([login_required, user_required], name='dispatch')
@@ -483,6 +472,12 @@ class UpdateMacroElementsView(UpdateView):
     def form_valid(self, form, **kwargs):
         form.save()
         return super(UpdateMacroElementsView, self).form_valid(form)
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(UpdateMacroElementsView, self).post(request, *args, **kwargs)
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
@@ -645,11 +640,10 @@ class CreateReportUserView(CreateView):
         photos = form['photos'].save(commit=False)
         photos.report = report
         photos.save()
-
         return super(CreateReportUserView, self).form_valid(form)
 
     def post(self, request, *args, **kwargs):
         if "cancel" in request.POST:
-            return HttpResponseRedirect(self.success_url())
+            return HttpResponseRedirect(self.success_url)
         else:
             return super(CreateReportUserView, self).post(request, *args, **kwargs)

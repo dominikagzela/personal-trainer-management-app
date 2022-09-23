@@ -1,5 +1,5 @@
 from django import forms
-from betterforms.multiform import MultiModelForm
+from betterforms.multiform import MultiForm
 from .models import (
     MacroElements,
     Reports, Photos,
@@ -64,7 +64,7 @@ class PlanExercisesForm(forms.ModelForm):
     Form for plan of exercises for superuser.
     '''
     exercise = forms.ModelChoiceField(queryset=Exercises.objects.all(), label='Ćwiczenie',
-                                      empty_label=None, to_field_name='name', required=False)
+                                      empty_label=None, to_field_name='name')
     series = forms.IntegerField(label='Serie', min_value=1, max_value=10, step_size=1)
     repeat = forms.IntegerField(label='Powtórzenia', min_value=1, max_value=50, step_size=1)
 
@@ -113,7 +113,7 @@ class PhotosForm(forms.ModelForm):
         }
 
 
-class ReportPhotosMultiForm(MultiModelForm):
+class ReportPhotosMultiForm(MultiForm):
     '''
     Report and photos form combined.
     '''

@@ -115,8 +115,11 @@ USE_I18N = True
 USE_TZ = True
 
 
+# server path to store files in the computer
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# the reference URL for browser to access the files over Http
 MEDIA_URL = '/media/'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
