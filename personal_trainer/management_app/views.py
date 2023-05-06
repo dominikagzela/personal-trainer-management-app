@@ -80,9 +80,7 @@ class DashboardTrainerView(ListView):
     The view shows the dashboard for the superuser with the menu available.
     '''
     template_name = 'management_app/dashboard_trainer.html'
-
-    def get_queryset(self):
-        return User.objects.filter(is_trainer=True)
+    queryset = User.objects.filter(is_trainer=True)
 
 
 @method_decorator([login_required, user_required], name='dispatch')
@@ -91,9 +89,7 @@ class DashboardUserView(ListView):
     The view shows the dashboard for the client with the menu available.
     '''
     template_name = 'management_app/dashboard_user.html'
-
-    def get_queryset(self):
-        return User.objects.filter(is_trainer=False).order_by('first_name')
+    queryset = User.objects.filter(is_trainer=False).order_by('first_name')
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
@@ -133,6 +129,7 @@ class AddPracticalTipView(CreateView):
     '''
     The view allows the superuser to add a new tip to the list of practical tips.
     '''
+    model = PracticalTips
     template_name = 'management_app/add_practical_tip.html'
     form_class = PracticalTipForm
     success_url = reverse_lazy('practical-tips-trainer')
@@ -141,7 +138,7 @@ class AddPracticalTipView(CreateView):
         if "cancel" in request.POST:
             return HttpResponseRedirect(self.success_url)
         else:
-            return super(AddPracticalTipView, self).post(request, *args, **kwargs)
+            return super().post(request, *args, **kwargs)
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
@@ -149,6 +146,7 @@ class UpdatePracticalTipView(UpdateView):
     '''
     The view allows the superuser to update the selected tip.
     '''
+    model = PracticalTips
     template_name = 'management_app/update_practical_tip.html'
     form_class = PracticalTipForm
     success_url = reverse_lazy('practical-tips-trainer')
@@ -157,7 +155,7 @@ class UpdatePracticalTipView(UpdateView):
         if "cancel" in request.POST:
             return HttpResponseRedirect(self.success_url)
         else:
-            return super(UpdatePracticalTipView, self).post(request, *args, **kwargs)
+            return super().post(request, *args, **kwargs)
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
@@ -173,7 +171,7 @@ class DeletePracticalTipView(DeleteView):
         if "cancel" in request.POST:
             return HttpResponseRedirect(self.success_url)
         else:
-            return super(DeletePracticalTipView, self).post(request, *args, **kwargs)
+            return super().post(request, *args, **kwargs)
 
 
 @method_decorator([login_required, trainer_required], name='dispatch')
@@ -246,7 +244,7 @@ class PlanUserView(ListView):
     def get_context_data(self, **kwargs):
         current_user = self.request.user
 
-        plans = PlanExercises.objects.filter(user=current_user.id)
+        plans = PlanExercises.objects.filter(user=current_user.pk)
         get_trainings = []
         if not plans:
             plans = None
@@ -254,6 +252,7 @@ class PlanUserView(ListView):
             for plan in plans:
                 if not (plan.training_number in get_trainings):
                     get_trainings.append(plan.training_number)
+
         ctx = {
             'trainings': get_trainings,
             'plans': plans

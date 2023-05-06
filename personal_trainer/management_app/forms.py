@@ -1,5 +1,5 @@
 from django import forms
-from betterforms.multiform import MultiForm
+from betterforms.multiform import MultiModelForm
 from .models import (
     MacroElements,
     Reports, Photos,
@@ -113,7 +113,7 @@ class PhotosForm(forms.ModelForm):
         }
 
 
-class ReportPhotosMultiForm(MultiForm):
+class ReportPhotosMultiForm(MultiModelForm):
     '''
     Report and photos form combined.
     '''

@@ -57,14 +57,16 @@ def test_macro_elements_for_user(client, user, macro_elements):
     response = client.get(f'/macro_elements_trainer/{user.id}/')
     assert response.status_code == 302
     assert User.objects.get(username='usertest')
-    assert MacroElements.objects.get(user=user, fat=30)
+    assert MacroElements.objects.get(user=user, fat=macro_elements.fat)
 
 
-# @pytest.mark.django_db
-# def test_user_list(client, users):
-#     response = client.get('/user_list/')
-#     users = User.objects.all().order_by('first_name')
-#     i = 0
-#     for user in response.context['users']:
-#         assert user == users[0]
-#         i += 1
+@pytest.mark.django_db
+def test_user_list(client, users, user):
+    user.is_trainer = True
+    user.save()
+    trainer = user
+    client.force_login(trainer)
+    response = client.get('/user_list/')
+
+    assert response.status_code == 200
+    assert response.context['users'].count() == 3
