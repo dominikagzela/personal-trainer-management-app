@@ -37,11 +37,13 @@ class Reports(models.Model):
     '''
     Report model for creating weekly report with measurements and trainings completed by user.
     '''
-    weight = models.DecimalField(max_digits=4, decimal_places=1)
-    waist = models.DecimalField(max_digits=4, decimal_places=1)
-    stomach = models.DecimalField(max_digits=4, decimal_places=1)
-    hip = models.DecimalField(max_digits=4, decimal_places=1)
-    thigh = models.DecimalField(max_digits=4, decimal_places=1)
+    MAX_DIGITS = 4
+    DECIMAL_PLACES = 4
+    weight = models.DecimalField(max_digits=MAX_DIGITS, decimal_places=DECIMAL_PLACES)
+    waist = models.DecimalField(max_digits=MAX_DIGITS, decimal_places=DECIMAL_PLACES)
+    stomach = models.DecimalField(max_digits=MAX_DIGITS, decimal_places=DECIMAL_PLACES)
+    hip = models.DecimalField(max_digits=MAX_DIGITS, decimal_places=DECIMAL_PLACES)
+    thigh = models.DecimalField(max_digits=MAX_DIGITS, decimal_places=DECIMAL_PLACES)
     training_first = models.BooleanField()
     training_second = models.BooleanField()
     training_third = models.BooleanField()
@@ -58,10 +60,11 @@ class Photos(models.Model):
     '''
     Photos model for creating weekly report by user.
     '''
-    front = models.ImageField(upload_to='photos')
-    back = models.ImageField(upload_to='photos')
-    right = models.ImageField(upload_to='photos')
-    left = models.ImageField(upload_to='photos')
+    UPLOAD_FILE = 'photos'
+    front = models.ImageField(upload_to=UPLOAD_FILE)
+    back = models.ImageField(upload_to=UPLOAD_FILE)
+    right = models.ImageField(upload_to=UPLOAD_FILE)
+    left = models.ImageField(upload_to=UPLOAD_FILE)
     report = models.ForeignKey(Reports, on_delete=models.CASCADE)
 
 
