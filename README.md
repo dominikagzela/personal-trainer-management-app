@@ -1,4 +1,4 @@
-# Personal Trainer Management - personal training management app
+# PersonalTrainerManagement - personal training management app
 
 ## Description:
 The application is intended for a personal trainer who can easily track the progress of his clients and make changes to their training plans and caloric diet. The application is divided into two types of users: trainer and clients. Each client can log in to his account, check his training target and macronutrients, general guidelines for cooperation, training plan and be able to send a report to the trainer (measurements, list of training sessions, sent pictures of the figure, additional comments). The trainer has the ability to check the list of clients, their goals, data from reports and add or update their caloric value, training plans, exercises and general tips.
@@ -39,12 +39,12 @@ Both the trainer and his clients can log in and out of the application and addit
 
 ## Data login:
 -   <b>SUPERUSER</b>
-    1.  login: trainer
-        <br>password: testtest12
+    1.  <u>login:</u> trainer
+        <u><br>password:</u> testtest12
 -   <b>USERS</b>
-    1.  login: user1
-        <br>password: test1
-    2.  login: user5
-        <br>password: test5
+    1.  <u>login:</u> user1
+        <u><br>password:</u> test1
+    2.  <u>login:</u> user5
+        <u><br>password:</u> test5
     
     <br>... etc
