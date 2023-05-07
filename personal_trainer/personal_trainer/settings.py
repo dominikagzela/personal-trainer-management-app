@@ -75,11 +75,11 @@ WSGI_APPLICATION = 'personal_trainer.wsgi.application'
 
 DATABASES = {
     'default': {
-        'HOST': '127.0.0.1',
-        'NAME': 'personal_trainer_db',
+        'HOST': 'db',
+        'NAME': 'django',
         'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
+        'USER': 'test',
+        'PASSWORD': 'test',
     }
 }
 

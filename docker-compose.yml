@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  web:
+    build: ./personal_trainer/
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./personal_trainer/:/usr/src/app/
+    ports:
+      - 8000:8000
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=django
+
+volumes:
+  postgres_data:
