@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-
 TRAINING = (
     (1, 'Trening pierwszy'),
     (2, 'Trening drugi'),
@@ -11,21 +10,17 @@ TRAINING = (
 
 
 class User(AbstractUser):
-    '''
+    """
     User model.
-    '''
+    """
     is_trainer = models.BooleanField(default=False)
     purpose = models.TextField()
-    # email = models.EmailField()
-    # password = models.CharField()
-    # first_name
-    # last_name
 
 
 class MacroElements(models.Model):
-    '''
+    """
     Macro elements model for user.
-    '''
+    """
     calories = models.IntegerField()
     protein = models.IntegerField()
     fat = models.IntegerField()
@@ -34,9 +29,9 @@ class MacroElements(models.Model):
 
 
 class Reports(models.Model):
-    '''
+    """
     Report model for creating weekly report with measurements and trainings completed by user.
-    '''
+    """
     MAX_DIGITS = 4
     DECIMAL_PLACES = 4
     weight = models.DecimalField(max_digits=MAX_DIGITS, decimal_places=DECIMAL_PLACES)
@@ -57,9 +52,9 @@ class Reports(models.Model):
 
 
 class Photos(models.Model):
-    '''
+    """
     Photos model for creating weekly report by user.
-    '''
+    """
     UPLOAD_FILE = 'photos'
     front = models.ImageField(upload_to=UPLOAD_FILE)
     back = models.ImageField(upload_to=UPLOAD_FILE)
@@ -69,9 +64,9 @@ class Photos(models.Model):
 
 
 class Exercises(models.Model):
-    '''
+    """
     Exercises model for superuser.
-    '''
+    """
     name = models.CharField(max_length=255)
     description = models.TextField()
     url = models.URLField()
@@ -85,9 +80,9 @@ class Exercises(models.Model):
 
 
 class PlanExercises(models.Model):
-    '''
+    """
     Model of exercises included in users plan.
-    '''
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     exercise = models.ForeignKey(Exercises, on_delete=models.CASCADE)
     training_number = models.IntegerField(TRAINING)
@@ -100,9 +95,9 @@ class PlanExercises(models.Model):
 
 
 class PracticalTips(models.Model):
-    '''
+    """
     Practical tips model.
-    '''
+    """
     tip = models.TextField()
 
     class Meta:
