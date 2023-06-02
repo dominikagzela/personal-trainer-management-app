@@ -1,6 +1,8 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_user.html' %}
 
 {% block content %}
+<div class="report-list-trainer-container">
+<div class="report-list-trainer">
     <a href="/create_report_user">Stwórz nowy raport</a><br>
 {% if reports == None %}
     <br>
@@ -105,8 +107,8 @@
             </tbody>
         </table>
     </ul>
-    <br>
+
 {% endif %}
-    <a href="/dashboard_user">Strona główna</a><br>
-    <a href="/logout"</a>Wyloguj
+</div>
+</div>
 {% endblock %}

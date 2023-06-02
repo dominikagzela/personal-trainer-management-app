@@ -1,16 +1,15 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_trainer.html' %}
 
 
 {% block content %}
+<div class="update-macro-form">
     <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-    <h3>MAKROSKŁADNIKI</h3><br>
+    <h3 class="title">MAKROSKŁADNIKI</h3>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <br>
         <input type="submit" value="Zapisz">
         <input type="submit" formnovalidate name="cancel" value="Anuluj"/>
     </form>
-<br><br>
-    <a href="/logout"</a>Wyloguj
+</div>
 {% endblock %}

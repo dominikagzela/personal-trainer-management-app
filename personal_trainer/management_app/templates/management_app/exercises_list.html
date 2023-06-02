@@ -1,9 +1,10 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_trainer.html' %}
 
 {% block content %}
-    <h3>Lista wszystkich dostępnych ćwiczeń:</h3>
+<div class="exercises-list-container">
+    <div class="exercises-list-wrapper">
+    <h3 class="title">Lista wszystkich dostępnych ćwiczeń:</h3>
     <a href="/add_exercise">Dodaj nowe ćwiczenie</a>
-    <ul>
         <table>
             <thead>
                 <tr>
@@ -28,8 +29,6 @@
                 {% endfor %}
             </tbody>
         </table>
-    </ul>
-    <br>
-    <a href="/dashboard_trainer">Strona główna</a><br>
-    <a href="/logout"</a>Wyloguj
+    </div>
+</div>
 {% endblock %}

@@ -1,7 +1,8 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_trainer.html' %}
 
 
 {% block content %}
+<div class="update-practical-tip">
     <h2>TRENING {{ training_number }}</h2>
     <form action="" method="POST">
         {% csrf_token %}
@@ -9,5 +10,5 @@
         <input type="submit" value="Dodaj">
         <input type="submit" formnovalidate name="cancel" value="Anuluj"/>
     </form><br>
-    <a href="/logout"</a>Wyloguj
+</div>
 {% endblock %}

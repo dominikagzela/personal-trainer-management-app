@@ -1,11 +1,10 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_trainer.html' %}
 
 {% block content %}
-    <h3>LISTA OGÓLNYCH WSKAZÓWEK:</h3>
+<div class="practical-tips-container">
+    <div class="practical-tips-wrapper">
+    <h3 class="title">LISTA OGÓLNYCH WSKAZÓWEK:</h3>
     <a href="/add_practical_tip" target="_blank">Dodaj nową wskazówkę</a>
-<br>
-<br>
-    <ul>
         <table>
             <thead>
                 <tr>
@@ -26,9 +25,6 @@
                 {% endfor %}
             </tbody>
         </table>
-    </ul>
-<br>
-<br>
-    <a href="/dashboard_trainer">Strona główna</a><br>
-    <a href="/logout"</a>Wyloguj
+    </div>
+</div>
 {% endblock %}

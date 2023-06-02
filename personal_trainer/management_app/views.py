@@ -42,7 +42,7 @@ class LoginView(FormView):
     The view that allows the user to log in, checks that the logged in user is a superuser
     or client and on this basis, it redirects user to the proper dashboard.
     """
-    template_name: str = 'management_app/login_user.html'
+    template_name: str = 'management_app/login.html'
     form_class: Type[LoginUserForm] = LoginUserForm
 
     def form_valid(self, form: LoginUserForm) -> HttpResponse:

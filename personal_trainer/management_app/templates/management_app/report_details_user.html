@@ -1,6 +1,7 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_user.html' %}
 
 {% block content %}
+<div class="update-macro-form">
     <h3>RAPORT Z {{ report.created_date|date:'d.m.Y' }}:</h3>
 <br>
 <h3>Pomiary:</h3>
@@ -45,6 +46,5 @@
     </ul>
 <br>
     <a href="/report_list_user"</a>Powrót do listy<br><br>
-    <a href="/dashboard_user">Strona główna</a><br>
-    <a href="/logout"</a>Wyloguj
+</div>
 {% endblock %}

@@ -1,6 +1,8 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_trainer.html' %}
 
 {% block content %}
+<div class="report-list-trainer-container">
+<div class="report-list-trainer">
     <h2>{{ user.first_name }} {{ user.last_name }}</h2>
 {% if reports == None %}
     <br>
@@ -107,7 +109,8 @@
     </ul>
     <br>
 {% endif %}
+
     <a href="/user_list"</a>Powrót do listy<br><br>
-    <a href="/dashboard_trainer">Strona główna</a><br>
-    <a href="/logout"</a>Wyloguj
+    </div>
+</div>
 {% endblock %}

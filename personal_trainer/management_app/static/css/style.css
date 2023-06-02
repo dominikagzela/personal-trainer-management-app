@@ -26,6 +26,7 @@ body {
       background-image: url(../images/gym.jpg);
       background-size: cover;
       background-repeat: no-repeat;
+      background-attachment: fixed;
       position: relative;
       box-sizing: border-box;
       min-height: 100vh;
@@ -44,7 +45,7 @@ body:after {
       top: 0;
       left:0;
       width: 100vw;
-      height: 100vh;
+      height: 100%;
       background-color: rgba(0,0,0,0.6);
       /*opacity: 0.3;*/
       z-index:-1;
@@ -107,6 +108,18 @@ button {
       font-family: 'Montserrat', sans-serif;
 }
 
+select {
+      background: transparent;
+      margin-top: 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      padding: 5px 10px;
+}
+
+select option {
+      background: transparent;
+}
+
 div.body-content {
       width: 100%;
       /*height: 100%;*/
@@ -131,6 +144,7 @@ div.top-bar {
       padding: 20px 100px 20px;
       backdrop-filter: blur(15px);
       background: rgba(255, 255, 255, 0.3);
+      /*box-shadow: rgba(9, 7, 53, 0.2) 0px 37px 24px;*/
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -142,7 +156,6 @@ div.quote {
       margin: 0 auto;
       max-width: 40vw;
       padding-top: 100px;
-      /*background-color: rgba(0,0,0,0.6);*/
 }
 
 div.quote p.quote-text{
@@ -154,8 +167,102 @@ div.quote p.quote-text{
       text-align: center;
 }
 
+div.user-list-container{
+      width: 100%;
+      padding: 40px 100px;
+}
+
+div.user-list-wrapper {
+      width: 100%;
+      padding: 50px;
+      border-radius: 30px;
+      background-color: rgba(255,255,255,0.8);
+}
+
+div.exercises-list-container, div.practical-tips-container, div.report-list-trainer-container, div.plan-for-user-trainer-container, div.create-report-container, div.create-report-form-container {
+      width: 100%;
+      padding: 180px 100px;
+}
+
+div.exercises-list-wrapper, div.practical-tips-wrapper, div.report-list-trainer, div.plan-for-user-trainer, div.create-report-form
+    {
+      width: 100%;
+      padding: 50px;
+      border-radius: 30px;
+      background-color: rgba(255,255,255,0.8);
+}
+
+div.user-macro-trainer{
+      padding: 50px 80px;
+      border-radius: 20px;
+      background-color: rgba(255,255,255,0.8);
+}
+
+div.delete-tip {
+      padding: 50px 80px;
+      border-radius: 20px;
+      background-color: rgba(255,255,255,0.8);
+}
+
+div.update-macro-form {
+      padding:20px 50px;
+      border-radius: 20px;
+      background-color: rgba(255,255,255,0.8);
+}
+
+div.update-practical-tip {
+      padding: 50px 80px;
+      border-radius: 20px;
+      background-color: rgba(255,255,255,0.8);
+}
+
+div.update-practical-tip p {
+      display: flex;
+      flex-direction: column;
+}
+
+div.update-practical-tip textarea {
+      background: transparent;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      margin-top: 15px;
+}
+table {
+      border-collapse: collapse;
+}
+
+table thead th {
+      border-width: 0;
+      background-color: transparent;
+      border-width: 0px 0px 1px 0px;
+      border-bottom-style: solid;
+      border-bottom-color: black;
+      text-align: left;
+      padding: 10px 15px;
+}
+
+table tbody tr td {
+      border-width: 0;
+      background-color: transparent;
+      border-width: 0px 0px 1px 0px;
+      border-bottom-style: solid;
+      border-bottom-color: black;
+      text-align: left;
+      padding: 10px 15px;
+}
+
+ul.macro-list {
+      margin: 30px 0;
+}
+
 h3 {
       font-weight: 300;
+}
+
+h3.title {
+      font-weight: 900;
+      margin-bottom: 40px;
+      margin-top: 0;
 }
 
 h3 span {

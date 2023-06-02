@@ -1,8 +1,9 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_trainer.html' %}
 
 {% block content %}
-    <h3>LISTA PODOPIECZNYCH:</h3><br>
-    <ul>
+<div class="user-list-container">
+    <div class="user-list-wrapper">
+    <h3 class="title">LISTA PODOPIECZNYCH:</h3>
         <table>
             <thead>
                 <tr>
@@ -31,8 +32,9 @@
                 {% endfor %}
             </tbody>
         </table>
-    </ul>
-    <br>
-    <a href="/dashboard_trainer">Strona główna</a><br>
-    <a href="/logout"</a>Wyloguj
+</div>
+</div>
+<!--    <br>-->
+<!--    <a href="/dashboard_trainer">Strona główna</a><br>-->
+<!--    <a href="/logout"</a>Wyloguj-->
 {% endblock %}

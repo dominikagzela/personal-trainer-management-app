@@ -1,7 +1,9 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_user.html' %}
 
 
 {% block content %}
+<div class="create-report-form-container">
+    <div class="create-report-form">
     <h2>TWORZENIE NOWEGO RAPORTU</h2>
     <h2>Raport {{ number_of_reports }} - {{ date|date:'d.m.Y' }}:</h2>
     <form action="" method="POST" enctype="multipart/form-data">
@@ -19,8 +21,7 @@
       <img src="{{ img_obj.image.url }}" alt="connect" style="max-height:300px">
     {% endif %}
 
-    <br>
-    <br>
-    <a href="/dashboard_user">Strona główna</a><br>
-    <a href="/logout">Wyloguj</a>
+</div>
+</div>
+
 {% endblock %}

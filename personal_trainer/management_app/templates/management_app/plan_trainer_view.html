@@ -1,12 +1,13 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_trainer.html' %}
 
 {% block content %}
+<div class="plan-for-user-trainer-container">
+<div class="plan-for-user-trainer">
 <h2>{{ user.first_name }} {{ user.last_name }}</h2>
 <h3>PLAN ĆWICZEŃ:</h3>
 {% if plans == None %}
-    <br><h3 style="color: red">Brak utworzonego planu</h3>
-{% endif %}
-    <ul>
+    <h3 style="color: red">Brak utworzonego planu</h3>
+{% else %}
         {% for training in trainings %}
         <br><h2>TRENING {{ training }}:</h2>
         <table>
@@ -41,11 +42,11 @@
         </table>
         <h3><a href="/plan_add_exercise/{{ user.id }}/{{ training }}/">Dodaj ćwiczenie</a></h3>
         {% endfor %}
-    </ul><br>
+    {% endif %}
 <br>
 <a href="/user_list"</a>Powrót do listy<br><br>
-<a href="/dashboard_trainer">Strona główna</a><br>
-<a href="/logout"</a>Wyloguj
+</div>
+
 {% endblock %}
 
 
