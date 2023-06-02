@@ -1,10 +1,14 @@
 {% extends 'management_app/base.html' %}
 
 {% block content %}
-    <h3>Zalogowany jako trener</h3><br>
-    <a href="/practical_tips_trainer">Wskazówki dla podopiecznych</a><br>
-    <a href="/exercises_list">Lista ćwiczeń</a><br>
-    <a href="/user_list">Lista podopiecznych</a><br><br><br>
-
-    <a href="/logout"</a>Wyloguj
+<div class="top-bar">
+    <h3>Zalogowany jako <span>trener</span></h3>
+    <a href="/practical_tips_trainer">Wskazówki dla podopiecznych</a>
+    <a href="/exercises_list">Lista ćwiczeń</a>
+    <a href="/user_list">Lista podopiecznych</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+<div class="quote">
+    <p class="quote-text">"You don't have to be great to start, but you have to start to be great"</p>
+</div>
 {% endblock %}
