@@ -3,9 +3,11 @@
 {% block content %}
 <div class="practical-tips-container">
     <div class="practical-tips-wrapper">
-    <h3 class="title">LISTA OGÓLNYCH WSKAZÓWEK:</h3>
-    <a href="/add_practical_tip" target="_blank">Dodaj nową wskazówkę</a>
-        <table>
+        <div class="header-and-button">
+            <h3 class="title">LISTA OGÓLNYCH WSKAZÓWEK:</h3>
+            <a class="add-button" href="/add_practical_tip" target="_blank">Dodaj nową wskazówkę</a>
+        </div>
+        <table class="table-big">
             <thead>
                 <tr>
                     <th></th>
@@ -19,8 +21,8 @@
                 <tr>
                     <td><b>{{ forloop.counter }}.</b></td>
                     <td>{{ tip.tip }}</td>
-                    <td><a href="/delete_practical_tip/{{ tip.id }}"</a>Usuń</td>
-                    <td><a href="/update_practical_tip/{{ tip.id }}"</a>Edytuj</td>
+                    <td><a class="add-button-small" href="/delete_practical_tip/{{ tip.id }}"</a>Usuń</td>
+                    <td><a class="add-button-small" href="/update_practical_tip/{{ tip.id }}"</a>Edytuj</td>
                 </tr>
                 {% endfor %}
             </tbody>

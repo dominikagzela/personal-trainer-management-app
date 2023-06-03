@@ -3,9 +3,9 @@
 {% block content %}
 <div class="report-details-user-container">
 <div class="report-details-user">
-    <h3>RAPORT Z {{ report.created_date|date:'d.m.Y' }}:</h3>
+    <h3 class="title">RAPORT Z {{ report.created_date|date:'d.m.Y' }}:</h3>
 <br>
-<h3>Pomiary:</h3>
+<h3><b>POMIARY:</b></h3>
     <li>Waga:   {{ report.weight }} kg</li>
 <br>
     <li>Talia:  {{ report.waist }} cm</li>
@@ -13,7 +13,7 @@
     <li>Biodra: {{ report.hip }} cm</li>
     <li>Udo: {{ report.thigh }} cm</li>
 <br>
-<h3>Treningi:</h3>
+<h3><b>TRENINGI:</b></h3>
     {% if report.training_first == True %}
     <li>Trening 1: <span class="tick">✓</span></li>
     {% else %}
@@ -38,7 +38,7 @@
     <li>Trening 4: <span class="cross">⨯</span></li>
     {% endif %}
 <br>
-<h3>Zdjęcia:</h3>
+<h3><b>ZDJĘCIA:</b></h3>
     <ul style="display: flex; justify-content: space-between; width: 40vw ">
         <li style="width: 150px; text-align: center"><p>Przód:</p><img title="przód" src ="/../../media/{{ photos.front }}"></li>
         <li style="width: 150px; text-align: center"><p>Tył:</p><img title="tył" src ="/../../media/{{ photos.back }}"></li>
@@ -46,7 +46,7 @@
         <li style="width: 150px; text-align: center"><p>Lewa strona:</p><img title="lewo" src ="/../../media/{{ photos.left }}"></li>
     </ul>
 <br>
-    <a href="/report_list_user"</a>Powrót do listy<br><br>
+    <a class="add-button" href="/report_list_user">Powrót do listy</a></a<br><br>
 </div>
 </div>
 {% endblock %}

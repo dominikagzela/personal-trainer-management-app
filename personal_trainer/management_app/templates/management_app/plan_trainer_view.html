@@ -4,12 +4,13 @@
 <div class="plan-for-user-trainer-container">
 <div class="plan-for-user-trainer">
 <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-<h3>PLAN ĆWICZEŃ:</h3>
+<h3 class="title">PLAN ĆWICZEŃ:</h3>
 {% if plans == None %}
-    <h3 style="color: red">Brak utworzonego planu</h3>
+    <h3 style="color: red; text-align: center; font-weight: 700">Brak utworzonego planu</h3>
 {% endif %}
         {% for training in trainings %}
-        <h2>TRENING {{ training }}:</h2>
+    <br>
+        <h2 style="font-weight: 700">TRENING {{ training }}:</h2>
         <table>
             <thead>
             <tr>
@@ -40,11 +41,13 @@
             {% endfor %}
             </tbody>
         </table>
-        <h3><a href="/plan_add_exercise/{{ user.id }}/{{ training }}/">Dodaj ćwiczenie</a></h3>
+        <h3><a class="add-button" href="/plan_add_exercise/{{ user.id }}/{{ training }}/">Dodaj ćwiczenie</a></h3>
         {% endfor %}
 
 <br>
-<a href="/user_list"</a>Powrót do listy<br><br>
+<br>
+<br>
+<a class="add-button"  href="/user_list">Powrót do listy</a></a<br><br>
 </div>
 
 {% endblock %}

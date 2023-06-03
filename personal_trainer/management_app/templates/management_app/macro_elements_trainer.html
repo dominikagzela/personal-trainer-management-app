@@ -14,10 +14,12 @@
         <br>
         <li><b>Białko:</b> {{ macros.protein }} g</li>
         <li><b>Tłuszcze:</b> {{ macros.fat }} g</li>
-        <li><b>Węglowodany:</b> {{ macros.carb }} g</li>
+        <li><b>Węglowodany:</b> {{ macros.carb }} g</li>  <br>
     </ul>
        <a href="/update_macro_elements/{{ user.id }}/{{ macros.pk }}">Edytuj</a><br>
 {% endif %}
-    <a href="/user_list"</a>Powrót do listy<br><br>
+    <br>
+    <br>
+    <a class="add-button"  href="/user_list">Powrót do listy</a>
 </div>
 {% endblock %}

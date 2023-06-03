@@ -160,10 +160,8 @@ div.quote {
 }
 
 div.quote p.quote-text span {
-      background-image: linear-gradient(transparent 7%, #d10808 0px);
-      background-size: 100% 100%;
-}
-div.quote p.quote-text{
+      /*background-image: linear-gradient(transparent 7%, #d10808 0px);*/
+      /*background-size: 100% 100%;*/
       font-weight: 900;
       font-size: 80px;
       line-height: 90px;
@@ -171,14 +169,20 @@ div.quote p.quote-text{
       font-style: italic;
       text-align: center;
 }
+div.quote p.quote-text{
+      text-align: center;
+}
 
 div.user-list-container{
       width: 100%;
       padding: 40px 100px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
 }
 
 div.user-list-wrapper {
-      width: 100%;
+      width: auto;
       padding: 50px;
       border-radius: 30px;
       background-color: rgba(255,255,255,0.8);
@@ -253,6 +257,7 @@ table thead th {
       border-bottom-color: black;
       text-align: left;
       padding: 10px 15px;
+      font-weight: 700;
 }
 
 table tbody tr td {
@@ -275,8 +280,10 @@ h3 {
 
 h3.title {
       font-weight: 900;
+      font-size: 32px;
       margin-bottom: 40px;
       margin-top: 0;
+      text-transform: uppercase;
 }
 
 h3 span {
@@ -305,4 +312,42 @@ input.checkbox {
 
 textarea#id_report-comments {
       width: 100%;
+}
+
+a.add-button {
+      font-size: 24px;
+      font-weight: 600;
+      color: white;
+      padding: 10px 30px;
+      border-radius: 50px;
+      background-color: rgba(0,0,0,0.6);
+}
+
+a.add-button-small {
+      font-size: 20px;
+      font-weight: 700;
+}
+
+a.add-button:after{
+      display: none;
+}
+
+table.table-big {
+      margin-top: 30px;
+}
+
+div.header-and-button {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+}
+
+b {
+      font-weight: 700;
+}
+
+th.cell-center, td.cell-center {
+      text-align: center;
 }

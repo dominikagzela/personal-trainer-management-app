@@ -6,10 +6,10 @@
     <h2>{{ user.first_name }} {{ user.last_name }}</h2>
 {% if reports == None %}
     <br>
-    <h3 style="color: red">Brak przesłanych raportów</h3>
+    <h3 style="color: red; font-weight: 700">Brak przesłanych raportów</h3>
     <br><br>
 {% else %}
-    <h3>POMIARY:</h3>
+    <h3 class="title">POMIARY:</h3>
         <table>
             <thead>
                 <tr>
@@ -37,16 +37,16 @@
             </tbody>
         </table>
 <br><br>
-    <h3>TRENINGI:</h3>
+    <h3 class="title">TRENINGI:</h3>
         <table>
             <thead>
                 <tr>
                     <th>Raport</th>
                     <th>Data</th>
-                    <th>Trening 1</th>
-                    <th>Trening 2</th>
-                    <th>Trening 3</th>
-                    <th>Trening 4</th>
+                    <th class="cell-center">Trening 1</th>
+                    <th class="cell-center">Trening 2</th>
+                    <th class="cell-center">Trening 3</th>
+                    <th class="cell-center">Trening 4</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,34 +55,34 @@
                         <td><b>{{ forloop.counter }}.</b></td>
                         <td>{{ report.created_date|date:'d.m.Y' }}</td>
                     {% if report.training_first == True %}
-                    <td><span class="tick">✓</span></td>
+                    <td class="cell-center"><span class="tick">✓</span></td>
                     {% else %}
-                        <td><span class="cross">⨯</span></td>
+                        <td class="cell-center"><span class="cross">⨯</span></td>
                     {% endif %}
 
                     {% if report.training_second == True %}
-                    <td><span class="tick">✓</span></td>
+                    <td class="cell-center"><span class="tick">✓</span></td>
                     {% else %}
-                    <td><span class="cross">⨯</span></td>
+                    <td class="cell-center"><span class="cross">⨯</span></td>
                     {% endif %}
 
                     {% if report.training_third == True %}
-                    <td><span class="tick">✓</span></td>
+                    <td class="cell-center"><span class="tick">✓</span></td>
                     {% else %}
-                        <td><span class="cross">⨯</span></td>
+                        <td class="cell-center"><span class="cross">⨯</span></td>
                     {% endif %}
 
                     {% if report.training_fourth == True %}
-                    <td><span class="tick">✓</span></td>
+                    <td class="cell-center"><span class="tick">✓</span></td>
                     {% else %}
-                        <td><span class="cross">⨯</span></td>
+                        <td class="cell-center"><span class="cross">⨯</span></td>
                     {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 <br><br>
-    <h3>LISTA RAPORTÓW:</h3>
+    <h3 class="title">LISTA RAPORTÓW:</h3>
         <table>
             <thead>
                 <tr>
@@ -102,9 +102,11 @@
             </tbody>
         </table>
     <br>
+    <br>
+    <br>
 {% endif %}
 
-    <a href="/user_list"</a>Powrót do listy<br><br>
+    <a class="add-button" href="/user_list">Powrót do listy</a>
     </div>
 </div>
 {% endblock %}
