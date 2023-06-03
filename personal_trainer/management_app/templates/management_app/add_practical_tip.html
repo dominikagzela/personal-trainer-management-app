@@ -2,13 +2,13 @@
 
 
 {% block content %}
+<div class="update-practical-tip">
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Dodaj">
         <input type="submit" formnovalidate name="cancel" value="Anuluj"/>
     </form>
-    <br>
-    <a href="/dashboard_trainer">Strona główna</a><br>
-    <a href="/logout">Wyloguj</a>
+</div>
+
 {% endblock %}

@@ -179,14 +179,16 @@ div.user-list-wrapper {
       background-color: rgba(255,255,255,0.8);
 }
 
-div.exercises-list-container, div.practical-tips-container, div.report-list-trainer-container, div.plan-for-user-trainer-container, div.create-report-container, div.create-report-form-container {
+div.exercises-list-container, div.practical-tips-container, div.report-list-trainer-container, div.plan-for-user-trainer-container, div.create-report-container, div.create-report-form-container, div.report-details-trainer-container {
       width: 100%;
       padding: 180px 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 }
 
-div.exercises-list-wrapper, div.practical-tips-wrapper, div.report-list-trainer, div.plan-for-user-trainer, div.create-report-form
-    {
-      width: 100%;
+div.exercises-list-wrapper, div.practical-tips-wrapper, div.report-list-trainer, div.plan-for-user-trainer, div.create-report-form, div.report-details-trainer {
+      width: auto;
       padding: 50px;
       border-radius: 30px;
       background-color: rgba(255,255,255,0.8);
@@ -267,4 +269,15 @@ h3.title {
 
 h3 span {
       font-weight: 700;
+}
+
+span.tick {
+      color: green;
+      font-size: 30px;
+}
+
+span.cross {
+      color: red;
+      font-size: 15px;
+      margin-left: 2px;
 }

@@ -1,9 +1,11 @@
 {% extends 'management_app/base_trainer.html' %}
 
 {% block content %}
-    <h2>{{ user.first_name }} {{ user.last_name }}</h3>
+<div class="report-details-trainer-container">
+    <div class="report-details-trainer">
+    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
     <h3>RAPORT Z {{ report.created_date|date:'d.m.Y' }}:</h3>
-<br>
+
 <h3>Pomiary:</h3>
     <li>Waga: {{ report.weight }} kg</li>
 <br>
@@ -14,27 +16,27 @@
 <br>
 <h3>Treningi:</h3>
     {% if report.training_first == True %}
-        <li>Trening 1: ✓</li>
+        <li>Trening 1: <span class="tick">✓</span></li>
     {% else %}
-        <li>Trening 1: -</li>
+        <li>Trening 1: <span class="cross">❌</span></li>
     {% endif %}
 
     {% if report.training_second == True %}
-        <li>Trening 2: ✓ </li>
+        <li>Trening 2: <span class="tick">✓</span> </li>
     {% else %}
-        <li>Trening 2: -</li>
+        <li>Trening 2: <span class="cross">❌</span></li>
     {% endif %}
 
     {% if report.training_third == True %}
-        <li>Trening 3: ✓</li>
+        <li>Trening 3: <span class="tick">✓</span></li>
     {% else %}
-        <li>Trening 3: -</li>
+        <li>Trening 3: <span class="cross">❌</span></li>
     {% endif %}
 
     {% if report.training_fourth == True %}
-        <li>Trening 4: ✓</li>
+        <li>Trening 4: <span class="tick">✓</span></li>
     {% else %}
-        <li>Trening 4: -</li>
+        <li>Trening 4: <span class="cross">❌</span></li>
     {% endif %}
 <br>
 <h3>Zdjęcia:</h3>
@@ -45,7 +47,7 @@
         <li style="width: 150px; text-align: center"><p>Lewa strona:</p><img title="lewo" src ="/../../media/{{ photos.left }}"></li>
     </ul>
 <br>
-    <a href="/report_list_trainer/{{ user.id }}"</a>Powrót do listy<br><br>
-    <a href="/dashboard_trainer">Strona główna</a><br>
-    <a href="/logout"</a>Wyloguj
+    <a href="/report_list_trainer/{{ user.id }}">Powrót do listy</a>
+        </div>
+    </div>
 {% endblock %}

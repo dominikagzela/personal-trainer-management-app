@@ -10,7 +10,6 @@
     <br><br>
 {% else %}
     <h3>POMIARY:</h3>
-    <ul>
         <table>
             <thead>
                 <tr>
@@ -37,10 +36,8 @@
                 {% endfor %}
             </tbody>
         </table>
-    </ul>
 <br><br>
     <h3>TRENINGI:</h3>
-    <ul>
         <table>
             <thead>
                 <tr>
@@ -58,36 +55,34 @@
                         <td><b>{{ forloop.counter }}.</b></td>
                         <td>{{ report.created_date|date:'d.m.Y' }}</td>
                     {% if report.training_first == True %}
-                        <td>✓</td>
+                    <td><span class="tick">✓</span></td>
                     {% else %}
-                        <td>-</td>
+                        <td><span class="cross">❌</span></td>
                     {% endif %}
 
                     {% if report.training_second == True %}
-                        <td>✓</td>
+                    <td><span class="tick">✓</span></td>
                     {% else %}
-                        <td>-</td>
+                    <td><span class="cross">❌</span></td>
                     {% endif %}
 
                     {% if report.training_third == True %}
-                        <td>✓</td>
+                    <td><span class="tick">✓</span></td>
                     {% else %}
-                        <td>-</td>
+                        <td><span class="cross">❌</span></td>
                     {% endif %}
 
                     {% if report.training_fourth == True %}
-                        <td>✓</td>
+                    <td><span class="tick">✓</span></td>
                     {% else %}
-                        <td>-</td>
+                        <td><span class="cross">❌</span></td>
                     {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </ul>
 <br><br>
     <h3>LISTA RAPORTÓW:</h3>
-    <ul>
         <table>
             <thead>
                 <tr>
@@ -106,7 +101,6 @@
                 {% endfor %}
             </tbody>
         </table>
-    </ul>
     <br>
 {% endif %}
 
