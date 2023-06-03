@@ -94,10 +94,10 @@ class ReportForm(forms.ModelForm):
     stomach: int = forms.IntegerField(label='Brzuch (cm)', min_value=MIN_VALUE, max_value=MAX_VALUE, step_size=STEP_SIZE)
     hip: int = forms.IntegerField(label='Biodra (cm)', min_value=MIN_VALUE, max_value=MAX_VALUE, step_size=STEP_SIZE)
     thigh: int = forms.IntegerField(label='Udo (cm)', min_value=MIN_VALUE, max_value=MAX_VALUE, step_size=STEP_SIZE)
-    training_first: bool = forms.BooleanField(label='Trening 1', required=False)
-    training_second: bool = forms.BooleanField(label='Trening 2', required=False)
-    training_third: bool = forms.BooleanField(label='Trening 3', required=False)
-    training_fourth: bool = forms.BooleanField(label='Trening 4', required=False)
+    training_first: bool = forms.BooleanField(label='Trening 1', required=False, widget=forms.CheckboxInput(attrs={'class': 'checkbox'}))
+    training_second: bool = forms.BooleanField(label='Trening 2', required=False, widget=forms.CheckboxInput(attrs={'class': 'checkbox'}))
+    training_third: bool = forms.BooleanField(label='Trening 3', required=False, widget=forms.CheckboxInput(attrs={'class': 'checkbox'}))
+    training_fourth: bool = forms.BooleanField(label='Trening 4', required=False, widget=forms.CheckboxInput(attrs={'class': 'checkbox'}))
     comments: str = forms.CharField(widget=forms.Textarea, label='Komentarz')
 
     class Meta:

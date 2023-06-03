@@ -7,7 +7,7 @@
     <h2>TWORZENIE NOWEGO RAPORTU</h2>
     <h2>Raport {{ number_of_reports }} - {{ date|date:'d.m.Y' }}:</h2>
     <form action="" method="POST" enctype="multipart/form-data">
-        <br><h3>POMIARY, TRENINGI I ZDJĘCIA:</h3>
+        <br><h3 class="title">POMIARY, TRENINGI I ZDJĘCIA:</h3>
         {% csrf_token %}
         {{ form.as_p }}
         <br>

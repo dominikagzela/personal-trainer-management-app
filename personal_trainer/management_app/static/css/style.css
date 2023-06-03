@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;0,900;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,700;1,900&display=swap');
 
 html {
       box-sizing: border-box;
@@ -19,6 +19,7 @@ html {
 *, *::before, *::after{
       box-sizing: border-box;
       font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
 }
 
 body {
@@ -158,10 +159,14 @@ div.quote {
       padding-top: 100px;
 }
 
+div.quote p.quote-text span {
+      background-image: linear-gradient(transparent 7%, #d10808 0px);
+      background-size: 100% 100%;
+}
 div.quote p.quote-text{
       font-weight: 900;
       font-size: 80px;
-      line-height: 95px;
+      line-height: 90px;
       color: white;
       font-style: italic;
       text-align: center;
@@ -179,7 +184,7 @@ div.user-list-wrapper {
       background-color: rgba(255,255,255,0.8);
 }
 
-div.exercises-list-container, div.practical-tips-container, div.report-list-trainer-container, div.plan-for-user-trainer-container, div.create-report-container, div.create-report-form-container, div.report-details-trainer-container {
+div.exercises-list-container, div.practical-tips-container, div.report-list-trainer-container, div.plan-for-user-trainer-container, div.create-report-container, div.create-report-form-container, div.report-details-trainer-container, div.report-details-user-container {
       width: 100%;
       padding: 180px 100px;
       display: flex;
@@ -187,7 +192,7 @@ div.exercises-list-container, div.practical-tips-container, div.report-list-trai
       align-items: center;
 }
 
-div.exercises-list-wrapper, div.practical-tips-wrapper, div.report-list-trainer, div.plan-for-user-trainer, div.create-report-form, div.report-details-trainer {
+div.exercises-list-wrapper, div.practical-tips-wrapper, div.report-list-trainer, div.plan-for-user-trainer, div.create-report-form, div.report-details-trainer, div.report-details-user {
       width: auto;
       padding: 50px;
       border-radius: 30px;
@@ -224,6 +229,13 @@ div.update-practical-tip p {
 }
 
 div.update-practical-tip textarea {
+      background: transparent;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      margin-top: 15px;
+}
+
+textarea {
       background: transparent;
       font-family: 'Montserrat', sans-serif;
       font-size: 18px;
@@ -278,6 +290,19 @@ span.tick {
 
 span.cross {
       color: red;
-      font-size: 15px;
+      font-size: 30px;
       margin-left: 2px;
+}
+
+input.checkbox {
+      width: 20px;
+      height: 20px;
+      background: transparent;
+      margin-left: 5px;
+      border: 2px solid black;
+      top: 0;
+}
+
+textarea#id_report-comments {
+      width: 100%;
 }
