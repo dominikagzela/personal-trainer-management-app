@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="update-practical-tip">
-    <h2>TRENING {{ training_number }}</h2>
+    <h2><b>TRENING {{ training_number }}</b></h2>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}

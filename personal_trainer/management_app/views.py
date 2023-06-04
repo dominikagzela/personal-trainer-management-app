@@ -35,6 +35,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views import View
 from django.db.models.query import QuerySet
 from typing import List, Optional, Dict, Type
+from django.shortcuts import render
 
 
 class LoginView(FormView):
@@ -54,7 +55,7 @@ class LoginView(FormView):
             login(self.request, user)
             return super().form_valid(form)
         else:
-            return HttpResponse('Błędne dane logowania.')
+            return render(self.request, 'management_app/incorrect_credentials.html')
 
     def get_success_url(self) -> str:
         user_is_trainer: bool = self.request.user.is_trainer
@@ -281,7 +282,7 @@ class PlanForUserView(ListView):
         current_user: User = User.objects.get(id=current_user_id)
 
         plans: Optional[List[PlanExercises]] = PlanExercises.objects.filter(user=current_user_id)
-        get_trainings: List[int]  = [1, 2, 3, 4]
+        get_trainings: List[int] = [1, 2, 3, 4]
         if not plans:
             plans = None
 
@@ -310,7 +311,7 @@ class PlanUpdateExerciseView(UpdateView):
         current_training: int = self.kwargs['training_number']
         current_exercise_id: int = self.kwargs['exercise_id']
 
-        initial: Dict[str, any]  = super(PlanUpdateExerciseView, self).get_initial()
+        initial: Dict[str, any] = super(PlanUpdateExerciseView, self).get_initial()
         plan: Optional[List[PlanExercises]] = PlanExercises.objects.filter(
             user=current_user_id).filter(
             training_number=current_training).filter(

@@ -34,6 +34,7 @@ class Reports(models.Model):
     """
     MAX_DIGITS: int = 4
     DECIMAL_PLACES: int = 4
+
     weight: int = models.DecimalField(max_digits=MAX_DIGITS, decimal_places=DECIMAL_PLACES)
     waist: int = models.DecimalField(max_digits=MAX_DIGITS, decimal_places=DECIMAL_PLACES)
     stomach: int = models.DecimalField(max_digits=MAX_DIGITS, decimal_places=DECIMAL_PLACES)
@@ -44,7 +45,7 @@ class Reports(models.Model):
     training_third: bool = models.BooleanField()
     training_fourth: bool = models.BooleanField()
     comments: str = models.TextField()
-    created_date= models.DateField(auto_now_add=True)
+    created_date = models.DateField(auto_now_add=True)
     user: User = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:

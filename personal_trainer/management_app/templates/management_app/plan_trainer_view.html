@@ -15,12 +15,12 @@
             <thead>
             <tr>
                 <th>Ćwiczenie</th>
-                <th>Serie</th>
-                <th>Powtórzenia</th>
-                <th>TUT</th>
-                <th></th>
-                <th></th>
-                <th>Wykonanie ćwiczenie</th>
+                <th class="cell-center">Serie</th>
+                <th class="cell-center">Powtórzenia</th>
+                <th class="cell-center">TUT</th>
+                <th class="cell-center"></th>
+                <th class="cell-center"></th>
+                <th class="cell-center">Wykonanie ćwiczenie</th>
                 <th>Opis ćwiczenia</th>
             </tr>
             </thead>
@@ -29,12 +29,12 @@
             {% if training == plan.training_number %}
             <tr>
                 <td>{{ plan.exercise.name }}</td>
-                <td>{{ plan.series }}</td>
-                <td>{{ plan.repeat }}</td>
-                <td>{{ plan.TUT }}</td>
-                <td><a href="/plan_update_exercise/{{ user.id }}/{{ plan.training_number }}/{{ plan.exercise.id }}/{{ plan.pk}}/"</a>Edytuj</td>
-                <td><a href="/plan_delete_exercise/{{ user.id }}/{{ plan.pk }}/"</a>Usuń</td>
-                <td><a href="{{ plan.exercise.url }}" target="_blank" </a>link</td>
+                <td class="cell-center">{{ plan.series }}</td>
+                <td class="cell-center">{{ plan.repeat }}</td>
+                <td class="cell-center">{{ plan.TUT }}</td>
+                <td class="cell-center"><a class="add-button-small" href="/plan_update_exercise/{{ user.id }}/{{ plan.training_number }}/{{ plan.exercise.id }}/{{ plan.pk}}/">Edytuj</a></td>
+                <td class="cell-center"><a class="add-button-small" href="/plan_delete_exercise/{{ user.id }}/{{ plan.pk }}/">Usuń</a></td>
+                <td class="cell-center"><a class="add-button-small" href="{{ plan.exercise.url }}" target="_blank">link</a></td>
                 <td>{{ plan.exercise.description }}</td>
             </tr>
             {% endif %}

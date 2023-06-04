@@ -2,8 +2,9 @@
 
 
 {% block content %}
+<div class="update-practical-tip">
     <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-    <h3>MAKROSKŁADNIKI</h3><br>
+    <h2><b>MAKROSKŁADNIKI</b></h2><br>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
@@ -11,6 +12,5 @@
         <input type="submit" value="Zapisz">
         <input type="submit" formnovalidate name="cancel" value="Anuluj"/>
     </form>
-<br><br>
-    <a href="/logout"</a>Wyloguj
+</div>
 {% endblock %}

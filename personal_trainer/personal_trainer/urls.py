@@ -48,7 +48,6 @@ from management_app.views import (
     CreateReportUserView,
 )
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
 

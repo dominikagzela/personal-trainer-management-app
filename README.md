@@ -13,6 +13,8 @@ Solves the problem of difficult communication between both parties (trainer and 
 - Python
 - Django
 - PostgreSQL
+- HTML
+- CSS
 
 ## Functionality:
 Both the trainer and his clients can log in and out of the application and additionally:
@@ -33,7 +35,7 @@ Both the trainer and his clients can log in and out of the application and addit
 - create a new report to the trainer using the form (measurements, checkbox with a list of completed workouts, uploaded body photos, additional comments)
 
 ## Screenshot from the application:
-![img.png](img.png)
+![app_view.png](app_view.png)
 
 <hr>
 
