@@ -1,12 +1,8 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_user.html' %}
 
 {% block content %}
-    <h3>Zalogowany jako user</h3><br>
-    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-    <a href="/practical_tips_user">Wskazówki</a><br>
-    <a href="/macro_elements_user">Makroskładniki</a><br>
-    <a href="/plan_user">Plan</a><br>
-    <a href="/report_list_user">Raporty</a><br><br>
-    <a href="/logout"</a>Wyloguj
+<div class="quote">
+    <p class="quote-text"><span>"You don't have to be great to start, but you have to start to be great"</span></p>
+</div>
 
 {% endblock %}

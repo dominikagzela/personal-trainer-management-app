@@ -1,24 +1,26 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_trainer.html' %}
 
 {% block content %}
+<div class="plan-for-user-trainer-container">
+<div class="plan-for-user-trainer">
 <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-<h3>PLAN ĆWICZEŃ:</h3>
+<h3 class="title">PLAN ĆWICZEŃ:</h3>
 {% if plans == None %}
-    <br><h3 style="color: red">Brak utworzonego planu</h3>
+    <h3 style="color: red; text-align: center; font-weight: 700">Brak utworzonego planu</h3>
 {% endif %}
-    <ul>
         {% for training in trainings %}
-        <br><h2>TRENING {{ training }}:</h2>
+    <br>
+        <h2 style="font-weight: 700">TRENING {{ training }}:</h2>
         <table>
             <thead>
             <tr>
                 <th>Ćwiczenie</th>
-                <th>Serie</th>
-                <th>Powtórzenia</th>
-                <th>TUT</th>
-                <th></th>
-                <th></th>
-                <th>Wykonanie ćwiczenie</th>
+                <th class="cell-center">Serie</th>
+                <th class="cell-center">Powtórzenia</th>
+                <th class="cell-center">TUT</th>
+                <th class="cell-center"></th>
+                <th class="cell-center"></th>
+                <th class="cell-center">Wykonanie ćwiczenie</th>
                 <th>Opis ćwiczenia</th>
             </tr>
             </thead>
@@ -27,25 +29,27 @@
             {% if training == plan.training_number %}
             <tr>
                 <td>{{ plan.exercise.name }}</td>
-                <td>{{ plan.series }}</td>
-                <td>{{ plan.repeat }}</td>
-                <td>{{ plan.TUT }}</td>
-                <td><a href="/plan_update_exercise/{{ user.id }}/{{ plan.training_number }}/{{ plan.exercise.id }}/{{ plan.pk}}/"</a>Edytuj</td>
-                <td><a href="/plan_delete_exercise/{{ user.id }}/{{ plan.pk }}/"</a>Usuń</td>
-                <td><a href="{{ plan.exercise.url }}" target="_blank" </a>link</td>
+                <td class="cell-center">{{ plan.series }}</td>
+                <td class="cell-center">{{ plan.repeat }}</td>
+                <td class="cell-center">{{ plan.TUT }}</td>
+                <td class="cell-center"><a class="add-button-small" href="/plan_update_exercise/{{ user.id }}/{{ plan.training_number }}/{{ plan.exercise.id }}/{{ plan.pk}}/">Edytuj</a></td>
+                <td class="cell-center"><a class="add-button-small" href="/plan_delete_exercise/{{ user.id }}/{{ plan.pk }}/">Usuń</a></td>
+                <td class="cell-center"><a class="add-button-small" href="{{ plan.exercise.url }}" target="_blank">link</a></td>
                 <td>{{ plan.exercise.description }}</td>
             </tr>
             {% endif %}
             {% endfor %}
             </tbody>
         </table>
-        <h3><a href="/plan_add_exercise/{{ user.id }}/{{ training }}/">Dodaj ćwiczenie</a></h3>
+        <h3><a class="add-button" href="/plan_add_exercise/{{ user.id }}/{{ training }}/">Dodaj ćwiczenie</a></h3>
         {% endfor %}
-    </ul><br>
+
 <br>
-<a href="/user_list"</a>Powrót do listy<br><br>
-<a href="/dashboard_trainer">Strona główna</a><br>
-<a href="/logout"</a>Wyloguj
+<br>
+<br>
+<a class="add-button"  href="/user_list">Powrót do listy</a></a<br><br>
+</div>
+
 {% endblock %}
 
 

@@ -1,7 +1,8 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_trainer.html' %}
 
 
 {% block content %}
+<div class="delete-tip">
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
@@ -9,5 +10,5 @@
         <input type="submit" value="Usuń">
         <input type="submit" name="cancel" value="Anuluj"/>
     </form>
-    <br><a href="/logout"</a>Wyloguj
+</div>
 {% endblock %}

@@ -1,8 +1,8 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_user.html' %}
 
 {% block content %}
-    <h3>MAKROSKŁADNIKI:</h3>
-<br>
+<div class="user-macro-trainer">
+    <h3 class="title">MAKROSKŁADNIKI:</h3>
 {% if macros == None %}
     <h3 style="color: red">Brak utworzonych makroskładników</h3>
 {% else %}
@@ -12,9 +12,5 @@
     <li><b>Tłuszcze:</b> {{ macros.fat }} g</li>
     <li><b>Węglowodany:</b> {{ macros.carb }} g</li>
 {% endif %}
-<br>
-<br>
-    <br>
-    <a href="/dashboard_user">Strona główna</a><br>
-    <a href="/logout"</a>Wyloguj
+</div>
 {% endblock %}

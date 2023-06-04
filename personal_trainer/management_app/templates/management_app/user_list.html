@@ -1,8 +1,9 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_trainer.html' %}
 
 {% block content %}
-    <h3>LISTA PODOPIECZNYCH:</h3><br>
-    <ul>
+<div class="user-list-container">
+    <div class="user-list-wrapper">
+    <h3 class="title">LISTA PODOPIECZNYCH:</h3>
         <table>
             <thead>
                 <tr>
@@ -24,15 +25,16 @@
                     <td>{{ user.last_name }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.purpose }}</td>
-                    <td><a href="/macro_elements_trainer/{{ user.id }}"</a>Makroskładniki</td>
-                    <td><a href="/plan_for_user/{{ user.id }}"</a>Plan treningowy</td>
-                    <td><a href="/report_list_trainer/{{ user.id }}"</a>Raporty</td>
+                    <td><a class="add-button-small" href="/macro_elements_trainer/{{ user.id }}"</a>Makroskładniki</td>
+                    <td><a class="add-button-small" href="/plan_for_user/{{ user.id }}"</a>Plan treningowy</td>
+                    <td><a class="add-button-small" href="/report_list_trainer/{{ user.id }}"</a>Raporty</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </ul>
-    <br>
-    <a href="/dashboard_trainer">Strona główna</a><br>
-    <a href="/logout"</a>Wyloguj
+</div>
+</div>
+<!--    <br>-->
+<!--    <a href="/dashboard_trainer">Strona główna</a><br>-->
+<!--    <a href="/logout"</a>Wyloguj-->
 {% endblock %}

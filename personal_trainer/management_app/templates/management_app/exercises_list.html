@@ -1,16 +1,19 @@
-{% extends 'management_app/base.html' %}
+{% extends 'management_app/base_trainer.html' %}
 
 {% block content %}
-    <h3>Lista wszystkich dostępnych ćwiczeń:</h3>
-    <a href="/add_exercise">Dodaj nowe ćwiczenie</a>
-    <ul>
-        <table>
+<div class="exercises-list-container">
+    <div class="exercises-list-wrapper">
+                <div class="header-and-button">
+    <h3 class="title">Lista wszystkich dostępnych ćwiczeń:</h3>
+        <a class="add-button" href="/add_exercise">Dodaj nowe ćwiczenie</a>
+                </div>
+        <table class="table-big">
             <thead>
                 <tr>
                     <th></th>
                     <th>Nazwa</th>
                     <th>Opis</th>
-                    <th>Wykonanie ćwiczenia</th>
+                    <th class="cell-center">Wykonanie ćwiczenia</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -21,15 +24,13 @@
                     <td><b>{{ forloop.counter }}.</b></td>
                     <td>{{ exercise.name }}</td>
                     <td>{{ exercise.description }}</td>
-                    <td><a href="{{ exercise.url }}" target="_blank"</a>link</td>
-                    <td><a href="/delete_exercise/{{ exercise.id }}"</a>Usuń</td>
-                    <td><a href="/update_exercise/{{ exercise.id }}"</a>Edytuj</td>
+                    <td class="cell-center"><a class="add-button-small" href="{{ exercise.url }}" target="_blank"</a>link</td>
+                    <td class="cell-center"><a class="add-button-small" href="/delete_exercise/{{ exercise.id }}"</a>Usuń</td>
+                    <td class="cell-center"><a class="add-button-small" href="/update_exercise/{{ exercise.id }}"</a>Edytuj</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </ul>
-    <br>
-    <a href="/dashboard_trainer">Strona główna</a><br>
-    <a href="/logout"</a>Wyloguj
+    </div>
+</div>
 {% endblock %}
